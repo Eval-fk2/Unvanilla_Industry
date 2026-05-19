@@ -1,0 +1,55 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"Eval02"
+		]
+	},
+	"header": {
+		"name": "Unvanilla Industry BP",
+		"description": "",
+		"min_engine_version": [
+			1,
+			26,
+			20
+		],
+		"uuid": "055e5006-3db7-4473-9306-935561236da1",
+		"version": [
+			1,
+			26,
+			20
+		]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "41e82839-c3c0-460b-b1d8-b995f75f1223",
+			"version": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"type": "script",
+			"language": "javascript",
+			"uuid": "ab89bcbe-2741-4fb6-9131-14f5cbc9e770",
+			"entry": "scripts/main.js",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"dependencies": [
+		{
+			"module_name": "@minecraft/server",
+			"version": "2.6.0-beta"
+		},
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "2.1.0-beta"
+		}
+	]
+}
