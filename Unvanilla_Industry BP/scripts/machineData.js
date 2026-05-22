@@ -2,8 +2,17 @@ const machineData = {
     miner: {
         type: 'PROCESSOR',
         displayName: '採鉱機',
-        compatibleRecipes: ['minerIron', 'minerCoal'],
-        layoutId: 'minerLayout'
+        usableRecipes: ['minerIron', 'minerCoal'],
+        layoutId: 'minerLayout',
+        components: {
+            blockSensor: [
+                {
+                    origin: [1,0,1],
+                    size: [0,3,0],
+                    blockId: 'minecraft:'
+                }
+            ]
+        }
     },
 
     smelter: {
