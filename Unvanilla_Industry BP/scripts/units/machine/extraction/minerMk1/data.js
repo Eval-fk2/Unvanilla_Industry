@@ -1,8 +1,15 @@
-export const minerMk1 = {
+export const minerMk1Data = {
     id: 'minerMk1',
     type: 'EXTRACTION',
     displayName: '採掘機Mk1',
     structureId: 'minerMk1Structure',
     usableRecipe: ['ironMineMk1', 'coalMineMk1'],
-    blockSensor: [1,0,1]
+    blockSensor: {x: 1, y: 0, z: 1},
+    input: [],
+    output: [
+        {localPos: {x: 1, y: 0, z: 0}, face: 'north', slotType: 'item', slotIndex: 0}
+    ],
+    electrode: [
+        {localPos: {x: 1, y: 0, z: 2}, face: 'south'}
+    ]
 };

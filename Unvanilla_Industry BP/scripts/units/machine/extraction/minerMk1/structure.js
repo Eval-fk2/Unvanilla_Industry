@@ -1,173 +1,172 @@
-export const minerMk1 = {
+export const minerMk1Structure = {
     id: 'minerMk1Structure',
+    centerOffset: {x: 1.5, y: 0.0, z: 1.5},
     blocks: [
         {
             id: 'uvi:miner_mk1_0_0_0',
-            localPos: [0,0,0],
+            localPos: {x: 0, y: 0, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_0_0',
-            localPos: [1,0,0],
+            localPos: {x: 1, y: 0, z: 0},
             roles: {
                 north: {type: 'output', slotType: 'item', slotIndex: 0}
             },
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_0_0',
-            localPos: [2,0,0],
+            localPos: {x: 2, y: 0, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_0_0_1',
-            localPos: [0,0,1],
+            localPos: {x: 0, y: 0, z: 1},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_0_1',
-            localPos: [2,0,1],
+            localPos: {x: 2, y: 0, z: 1},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_0_0_2',
-            localPos: [0,0,2],
+            localPos: {x: 0, y: 0, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_0_2',
-            localPos: [1,0,2],
+            localPos: {x: 1, y: 0, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_0_2',
-            localPos: [2,0,2],
+            localPos: {x: 2, y: 0, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
-
         {
             id: 'uvi:miner_mk1_0_1_0',
-            localPos: [0,1,0],
+            localPos: {x: 0, y: 1, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_1_0',
-            localPos: [1,1,0],
+            localPos: {x: 1, y: 1, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_1_0',
-            localPos: [2,1,0],
+            localPos: {x: 2, y: 1, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_0_1_1',
-            localPos: [0,1,1],
+            localPos: {x: 0, y: 1, z: 1},
             roles: {},
             animations: [
                 {
                     id: 'mining',
-                    frames: [0,1,2,9,10,11,12,13,14,15,16,17,18,19]
+                    frames: [0, 1, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
                 }
             ]
         },
         {
             id: 'uvi:miner_mk1_2_1_1',
-            localPos: [2,1,1],
+            localPos: {x: 2, y: 1, z: 1},
             roles: {},
-            animation: [
+            animations: [
                 {
                     id: 'mining',
-                    frames: [0,1,2,9,10,11,12,13,14,15,16,17,18,19]
+                    frames: [0, 1, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
                 }
             ]
         },
         {
             id: 'uvi:miner_mk1_0_1_2',
-            localPos: [0,1,2],
+            localPos: {x: 0, y: 1, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_1_2',
-            localPos: [1,1,2],
+            localPos: {x: 1, y: 1, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_1_2',
-            localPos: [2,1,2],
+            localPos: {x: 2, y: 1, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
-
         {
             id: 'uvi:miner_mk1_0_2_0',
-            localPos: [0,2,0],
+            localPos: {x: 0, y: 2, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_2_0',
-            localPos: [1,2,0],
+            localPos: {x: 1, y: 2, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_2_0',
-            localPos: [2,2,0],
+            localPos: {x: 2, y: 2, z: 0},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_0_2_1',
-            localPos: [0,2,1],
+            localPos: {x: 0, y: 2, z: 1},
             roles: {},
-            animation: [
+            animations: [
                 {
                     id: 'mining',
-                    frames: [3,4,5,6,7,8]
+                    frames: [3, 4, 5, 6, 7, 8]
                 }
             ]
         },
         {
             id: 'uvi:miner_mk1_2_2_1',
-            localPos: [2,2,1],
+            localPos: {x: 2, y: 2, z: 1},
             roles: {},
-            animation: [
+            animations: [
                 {
                     id: 'mining',
-                    frames: [3,4,5,6,7,8]
+                    frames: [3, 4, 5, 6, 7, 8]
                 }
             ]
         },
         {
             id: 'uvi:miner_mk1_0_2_2',
-            localPos: [0,2,2],
+            localPos: {x: 0, y: 2, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_1_2_2',
-            localPos: [1,2,2],
+            localPos: {x: 1, y: 2, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         },
         {
             id: 'uvi:miner_mk1_2_2_2',
-            localPos: [2,2,2],
+            localPos: {x: 2, y: 2, z: 2},
             roles: {},
-            animation: {}
+            animations: []
         }
     ]
 };
