@@ -8,15 +8,20 @@ import * as Main from '../../../../main';
 import * as Utils from '../../../../utils';
 
 export class MinerMk1Node {
+
+    static unitData = minerMk1Data;
+    static unitStructure = minerMk1Structure;
+    static unitRecipe = minerMk1Recipe;
+
     constructor(pos, direction, dimension) {
-        this.typeId        = minerMk1Data.id;
+        this.typeId        = MinerMk1Node.unitData.id;
         this.uuid          = `${this.typeId}_${pos.x}_${pos.y}_${pos.z}`;
         this.pos           = pos;
         this.direction     = direction;
         this.dimension     = dimension;
-        this.inputs  = Utils.initSlots(minerMk1Data.inputs);
-        this.outputs = Utils.initSlots(minerMk1Data.outputs);
-        this.powerNetworkId = null;
+        this.inputs  = Utils.initSlots(MinerMk1Node.unitData.inputs);
+        this.outputs = Utils.initSlots(MinerMk1Node.unitData.outputs);
+        this.powerNetworkId  = null;
         this.currentRecipeId = null;
         this.cycleStartTick  = null;
         this.cycleEndTick    = null;
@@ -29,11 +34,14 @@ export class MinerMk1Node {
         Main.worldUnits.push(this);
     };
 
+    /**
+     * ブロックを設置
+     */
     setStructure() {
-        for (const block of minerMk1Structure.blocks) {
-            const worldPos = rotatePos(
+        for (const block of MinerMk1Node.unitStructure.blocks) {
+            const worldPos = Utils.rotatePos(
                 block.localPos,
-                minerMk1Structure.centerOffset,
+                MinerMk1Node.unitStructure.centerOffset,
                 this.pos,
                 this.direction
             );
@@ -52,34 +60,63 @@ export class MinerMk1Node {
         };
     };
 
+    /**
+     * 接続先を探索
+     */
     searchConnect() {
-        for (const slot of minerMk1Data.output) {
-            const slotWorldPos = rotatePos(
+        //inputs
+        for (const slot of MinerMk1Node.unitData.inputs) {
+            const slotWorldPos = Utils.rotatePos(
                 slot.localPos,
-                minerMk1Structure.centerOffset,
+                MinerMk1Node.unitStructure.centerOffset,
                 this.pos,
                 this.direction
             );
-            const rotatedFace = rotateFace(slot.face, this.direction);
+            const rotatedFace = Utils.rotateFace(slot.face, this.direction);
             const detectPos = {
                 x: slotWorldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
                 y: slotWorldPos.y,
                 z: slotWorldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
             };
-            const connectDirection = oppositeFace(rotatedFace);
+            const connectDirection = Utils.oppositeFace(rotatedFace);
             const connectUnit = Main.worldUnits.find(unit =>
-                unit.unitData.type === 'CONVEYOR' &&
-                unit.direction     === connectDirection &&
-                posKey(unit.pos)   === posKey(detectPos)
+                unit.unitData.type     === 'CONVEYOR' &&
+                unit.direction         === connectDirection &&
+                Utils.posKey(unit.pos) === Utils.posKey(detectPos)
             );
             if (!connectUnit) continue;
-            this.output[slot.slotIndex].connectId      = connectUnit.id;
-            connectUnit.input[0].connectId             = this.uuid;
+            this.outputs[slot.slotIndex].connectId = connectUnit.id;
+            connectUnit.outputs[0].connectId       = this.uuid;
         };
-        for (const electrode of minerMk1Data.electrode) {
+        //outputs
+        for (const slot of MinerMk1Node.unitData.outputs) {
+            const slotWorldPos = Utils.rotatePos(
+                slot.localPos,
+                MinerMk1Node.unitStructure.centerOffset,
+                this.pos,
+                this.direction
+            );
+            const rotatedFace = Utils.rotateFace(slot.face, this.direction);
+            const detectPos = {
+                x: slotWorldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
+                y: slotWorldPos.y,
+                z: slotWorldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
+            };
+            const connectDirection = Utils.oppositeFace(rotatedFace);
+            const connectUnit = Main.worldUnits.find(unit =>
+                unit.unitData.type     === 'CONVEYOR' &&
+                unit.direction         === connectDirection &&
+                Utils.posKey(unit.pos) === Utils.posKey(detectPos)
+            );
+            if (!connectUnit) continue;
+            this.output[slot.slotIndex].connectId = connectUnit.id;
+            connectUnit.inputs[0].connectId       = this.uuid;
+        };
+        //electrode
+        for (const electrode of MinerMk1Node.unitData.electrode) {
             const electrodeWorldPos = rotatePos(
                 electrode.localPos,
-                minerMk1Structure.centerOffset,
+                MinerMk1Node.unitStructure.centerOffset,
                 this.pos,
                 this.direction
             );
@@ -116,13 +153,13 @@ export class MinerMk1Node {
 
     updateBlockSensor() {
         const sensorLocalPos = {
-            x: minerMk1Data.blockSensor.x,
-            y: minerMk1Data.blockSensor.y,
-            z: minerMk1Data.blockSensor.z
+            x: MinerMk1Node.unitData.blockSensor.x,
+            y: MinerMk1Node.unitData.blockSensor.y,
+            z: MinerMk1Node.unitData.blockSensor.z
         };
         const sensorWorldPos = rotatePos(
             sensorLocalPos,
-            minerMk1Structure.centerOffset,
+            MinerMk1Node.unitStructure.centerOffset,
             this.pos,
             this.direction
         );
@@ -131,7 +168,7 @@ export class MinerMk1Node {
     };
 
     setRecipe(recipeId, recipes) {
-        if (!minerMk1Data.usableRecipe.includes(recipeId)) return;
+        if (!MinerMk1Node.unitData.usableRecipe.includes(recipeId)) return;
         this.currentRecipeId = recipeId;
         this.status          = 'IDLE';
         this.cycleStartTick  = null;

@@ -7,7 +7,7 @@ export const minerMk1Data = {
     outputs: [
         {localPos: {x: 1, y: 0, z: 0}, face: 'north', slotType: 'item', slotIndex: 0}
     ],
-    electrode: [
+    electrodes: [
         {localPos: {x: 1, y: 0, z: 2}, face: 'south'}
     ]
 };
