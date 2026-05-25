@@ -1,20 +1,79 @@
 import {world} from '@minecraft/server';
 
-export function getId() {
-    if (world.getDynamicProperty('id') === undefined) world.setDynamicProperty('id',0);
-    let id = world.getDynamicProperty('id');
-    world.setDynamicProperty('id',id+1);
-    return id;
+/** 
+ * レシピ内容をUI上で表示するためのテキストを生成する
+*/
+export function makeRecipeText(recipeList, recipeId) {
+    const recipeData = recipeList[recipeId];
+    let inputsText = '';
+    let outputsText = '';
+    for (const slot of recipeData.inputs) inputsText += `${slot.type} ${slot.id} ${slot.count}\n`;
+    for (const slot of recipeData.outputs) outputsText += `${slot.type} ${slot.id} ${slot.count}\n`;
+    return `${recipeId}\n\n${inputsText}\n\n->\n\n${outputsText}\n\n${recipeData.powerPerMinutes}w/m ${recipeData.durationTick}Tick`;
 };
 
-export function initSlots(slotDefs) {
-    const slots = []
-    for (const def of slotDefs) {
-        slots[def.slotIndex] = {
-            slotType: def.slotType,
+/**
+ * faceをdirectionに応じて回転させる
+ * 基準(north)から時計回りに回転
+ */
+export function rotateFace(face, direction) {
+    const faceOrder = ['north', 'east', 'south', 'west'];
+    const directionOffset = { north: 0, east: 1, south: 2, west: 3 };
+    const idx = faceOrder.indexOf(face);
+    if (idx === -1) return face; // up/downはそのまま
+    return faceOrder[(idx + directionOffset[direction]) % 4];
+};
+
+/**
+ * faceの反対方向を返す
+ */
+export function oppositeFace(face) {
+    const opposite = { north: 'south', south: 'north', east: 'west', west: 'east' };
+    return opposite[face];
+};
+
+/**
+ * localPosをcenterOffset基準で回転させてワールド座標を返す
+ */
+export function rotatePos(localPos, centerOffset, originPos, direction) {
+    const cx = localPos.x - centerOffset.x;
+    const cy = localPos.y - centerOffset.y;
+    const cz = localPos.z - centerOffset.z;
+
+    let rx, rz;
+    switch (direction) {
+        case 'north': rx =  cx; rz =  cz; break;
+        case 'east':  rx =  cz; rz = -cx; break;
+        case 'south': rx = -cx; rz = -cz; break;
+        case 'west':  rx = -cz; rz =  cx; break;
+    };
+
+    return {
+        x: originPos.x + rx,
+        y: originPos.y + cy,
+        z: originPos.z + rz
+    };
+};
+
+/**
+ * posを文字列キー化する（オブジェクト比較用）
+ */
+export function posKey(pos) {
+    return `${pos.x},${pos.y},${pos.z}`;
+};
+
+/**
+ * slotDataから初期スロット状態を生成する
+ */
+export function initSlots(slotData) {
+    const slots = [];
+    for (const slot of slotData) {
+        slots[slot.slotIndex] = {
+            slotType: slot.slotType,
             id: null,
-            count: 0
-        }
-    }
-    return slots
+            count: 0,
+            connectId: null
+        };
+    };
+    return slots;
 };

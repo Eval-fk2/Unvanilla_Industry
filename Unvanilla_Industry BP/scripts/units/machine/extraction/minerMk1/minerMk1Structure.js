@@ -1,5 +1,4 @@
 export const minerMk1Structure = {
-    id: 'minerMk1Structure',
     centerOffset: {x: 1.5, y: 0.0, z: 1.5},
     blocks: [
         {
