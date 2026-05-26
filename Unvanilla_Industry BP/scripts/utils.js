@@ -1,5 +1,7 @@
 import {world} from '@minecraft/server';
 
+import * as Slot from './slot';
+
 /** 
  * レシピ内容をUI上で表示するためのテキストを生成する
 */
@@ -63,17 +65,14 @@ export function posKey(pos) {
 };
 
 /**
- * slotDataから初期スロット状態を生成する
+ * unitから初期入出力スロットを生成する
  */
-export function initSlots(slotData) {
+export function initIOSlots(unit) {
     const slots = [];
-    for (const slot of slotData) {
-        slots[slot.slotIndex] = {
-            slotType: slot.slotType,
-            id: null,
-            count: 0,
-            connectId: null
-        };
+    for (const slot of unit.slots) {
+        const worldPos = rotatePos(slot.localPos, unit.unitStructure.centerOffset, unit.pos, unit.direction);
+        const face = rotateFace(slot.face, unit.direction);
+        slots[slot.slotIndex] = new Slot.IOSlot(unit.uuid, worldPos, face, unit.dimension, slot.slotType, slot.contentType, slot.slotIndex);
     };
     return slots;
 };
