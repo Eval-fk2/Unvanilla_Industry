@@ -1,5 +1,6 @@
-import {world} from '@minecraft/server';
+import {world, ItemStack} from '@minecraft/server';
 
+import * as Main from './main';
 import * as Slot from './slot';
 
 /** 
@@ -67,12 +68,44 @@ export function posKey(pos) {
 /**
  * unitから初期入出力スロットを生成する
  */
-export function initIOSlots(unit) {
+export function initSlots(unit) {
     const slots = [];
-    for (const slot of unit.slots) {
+    for (const slot of unit.unitData.slots) {
         const worldPos = rotatePos(slot.localPos, unit.unitStructure.centerOffset, unit.pos, unit.direction);
         const face = rotateFace(slot.face, unit.direction);
-        slots[slot.slotIndex] = new Slot.IOSlot(unit.uuid, worldPos, face, unit.dimension, slot.slotType, slot.contentType, slot.slotIndex);
+        if (slot.slotType === 'IOSlot') {
+            slots.push(new Slot.IOSlot(unit.uuid, worldPos, face, unit.dimension, slot.ioType, slot.contentType));
+        }
+        else if (slot.slotType === 'ElectrodeSlot') {
+            slots.push(new Slot.ElectrodeSlot(unit.uuid, worldPos, face, unit.dimension, slot.electrodeType));
+        };
     };
     return slots;
 };
+
+/**
+ * inputスロット内部のアイテムを整理する
+ */
+export function countItems(slots) {
+    const items = new Map();
+    for (const slot of slots) {
+        if (
+            slot.slotType === 'IOSlot' &&
+            slot.ioType === 'input' &&
+            slot.content != null
+        ) items.set(slot.content.typeId, (items.get(slot.content.typeId) ?? 0) + slot.content.amount);
+    };
+    return items;
+};
+
+/**
+ * itemsよりレシピが作成可能か確かめる
+ */
+export function canCraft(recipe, items) {
+    for (const slot of recipe.inputs) {
+        const amount = items.get(slot.id) ?? 0;
+        if (amount < slot.amount) return false;
+    };
+    return true;
+};
+

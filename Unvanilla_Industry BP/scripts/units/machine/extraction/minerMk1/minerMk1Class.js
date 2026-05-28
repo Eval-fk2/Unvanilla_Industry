@@ -14,24 +14,23 @@ export class MinerMk1Node {
     static unitRecipe = minerMk1Recipe;
 
     constructor(pos, direction, dimension) {
-        this.typeId        = MinerMk1Node.unitData.id;
-        this.uuid          = `${this.typeId}_${pos.x}_${pos.y}_${pos.z}`;
-        this.pos           = pos;
-        this.direction     = direction;
-        this.dimension     = dimension;
-        this.inputs  = Utils.initSlots(MinerMk1Node.unitData.inputs);
-        this.outputs = Utils.initSlots(MinerMk1Node.unitData.outputs);
+        this.typeId          = MinerMk1Node.unitData.id;
+        this.uuid            = `${this.typeId}_${pos.x}_${pos.y}_${pos.z}`;
+        this.pos             = pos;
+        this.direction       = direction;
+        this.dimension       = dimension;
+        this.slots           = Utils.initSlots(this);
+        this.status          = 'IDLE';
         this.powerNetworkId  = null;
         this.currentRecipeId = null;
         this.cycleStartTick  = null;
         this.cycleEndTick    = null;
-        this.status          = 'IDLE';
         this.detectedBlockId = null;
 
         this.setStructure();
         this.searchConnect();
         this.joinPowerNetwork();
-        Main.worldUnits.push(this);
+        Main.unitUuidMap.set(this.uuid, this);
     };
 
     /**
@@ -64,91 +63,33 @@ export class MinerMk1Node {
      * 接続先を探索
      */
     searchConnect() {
-        //inputs
-        for (const slot of MinerMk1Node.unitData.inputs) {
-            const slotWorldPos = Utils.rotatePos(
-                slot.localPos,
-                MinerMk1Node.unitStructure.centerOffset,
-                this.pos,
-                this.direction
-            );
-            const rotatedFace = Utils.rotateFace(slot.face, this.direction);
+        for (const slot of this.slots) {
             const detectPos = {
-                x: slotWorldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
-                y: slotWorldPos.y,
-                z: slotWorldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
+                x: slot.worldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
+                y: slot.worldPos.y,
+                z: slot.worldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
             };
-            const connectDirection = Utils.oppositeFace(rotatedFace);
-            const connectUnit = Main.worldUnits.find(unit =>
-                unit.unitData.type     === 'CONVEYOR' &&
-                unit.direction         === connectDirection &&
-                Utils.posKey(unit.pos) === Utils.posKey(detectPos)
-            );
-            if (!connectUnit) continue;
-            this.outputs[slot.slotIndex].connectId = connectUnit.id;
-            connectUnit.outputs[0].connectId       = this.uuid;
-        };
-        //outputs
-        for (const slot of MinerMk1Node.unitData.outputs) {
-            const slotWorldPos = Utils.rotatePos(
-                slot.localPos,
-                MinerMk1Node.unitStructure.centerOffset,
-                this.pos,
-                this.direction
-            );
-            const rotatedFace = Utils.rotateFace(slot.face, this.direction);
-            const detectPos = {
-                x: slotWorldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
-                y: slotWorldPos.y,
-                z: slotWorldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
-            };
-            const connectDirection = Utils.oppositeFace(rotatedFace);
-            const connectUnit = Main.worldUnits.find(unit =>
-                unit.unitData.type     === 'CONVEYOR' &&
-                unit.direction         === connectDirection &&
-                Utils.posKey(unit.pos) === Utils.posKey(detectPos)
-            );
-            if (!connectUnit) continue;
-            this.output[slot.slotIndex].connectId = connectUnit.id;
-            connectUnit.inputs[0].connectId       = this.uuid;
-        };
-        //electrode
-        for (const electrode of MinerMk1Node.unitData.electrode) {
-            const electrodeWorldPos = rotatePos(
-                electrode.localPos,
-                MinerMk1Node.unitStructure.centerOffset,
-                this.pos,
-                this.direction
-            );
-            const rotatedFace = rotateFace(electrode.face, this.direction);
-            const detectPos = {
-                x: electrodeWorldPos.x + (rotatedFace === 'east'  ? 1 : rotatedFace === 'west'  ? -1 : 0),
-                y: electrodeWorldPos.y,
-                z: electrodeWorldPos.z + (rotatedFace === 'south' ? 1 : rotatedFace === 'north' ? -1 : 0)
-            };
-            const connectUnit = Main.worldUnits.find(unit =>
-                posKey(unit.pos) === posKey(detectPos) &&
-                (unit.unitData.type === 'POWER_CABLE' || unit.unitData.electrode)
-            );
-            if (connectUnit) {
-                this.electrode = connectUnit.id;
+            const connectSlot = Main.slotPosMap.get(detectPos);
+            if (connectSlot === undefined) return;
+            if (
+                connectSlot.face === Utils.oppositeFace(rotatedFace) &&
+                connectSlot.contentType === slot.contentType
+            ) {
+                connectSlot.connectId = this.uuid;
+                slot.connectId = connectSlot.uuid;
             };
         };
     };
 
     joinPowerNetwork() {
-        if (this.electrode) {
-            const connectUnit = Main.worldUnits.find(u => u.id === this.electrode);
-            if (connectUnit?.powerNetworkId) {
-                this.powerNetworkId = connectUnit.powerNetworkId;
-                const network = Main.powerNetworks.get(this.powerNetworkId);
-                network?.addMember(this.uuid);
-                return;
-            };
+        const electrodeSlot = this.slots.find(slot => slot.slotType === 'ElectrodeSlot');
+        const connectUnit = Main.unitUuidMap.get(electrodeSlot.connectId);
+        if (connectUnit.powerNetworkId != null) {
+            this.powerNetworkId = connectUnit.powerNetworkId;
+        }
+        else {
+            this.powerNetworkId = `powerNetwork_${this.uuid}`;
         };
-        const newNetworkId = `network_${this.uuid}`;
-        this.powerNetworkId = newNetworkId;
-        Main.powerNetworks.set(newNetworkId, { id: newNetworkId, memberIds: [this.uuid] });
     };
 
     updateBlockSensor() {
@@ -167,52 +108,16 @@ export class MinerMk1Node {
         this.detectedBlockId = detectedBlock?.typeId ?? null;
     };
 
-    setRecipe(recipeId, recipes) {
-        if (!MinerMk1Node.unitData.usableRecipe.includes(recipeId)) return;
+    setRecipe(recipeId) {
         this.currentRecipeId = recipeId;
         this.status          = 'IDLE';
         this.cycleStartTick  = null;
         this.cycleEndTick    = null;
     };
 
-    checkInputs(recipe) {
-        for (const input of recipe.inputs) {
-            if (input.type === 'blockDetect') {
-                if (this.detectedBlockId !== input.blockId) return false;
-            };
-            if (input.type === 'item') {
-                const slot = this.input[input.slotIndex];
-                if (!slot || slot.id !== input.itemId || slot.count < input.count) return false;
-            };
-        };
-        return true;
-    };
-
-    checkOutputs(recipe, maxStack = 64) {
-        for (const output of recipe.outputs) {
-            const slot = this.output[output.slotIndex];
-            if (!slot) return false;
-            if (slot.id !== null && slot.id !== output.itemId) return false;
-            if ((slot.count + output.count) > maxStack) return false;
-        };
-        return true;
-    };
-
     processRecipe(recipe) {
-        for (const input of recipe.inputs) {
-            if (input.type === 'item') {
-                this.input[input.slotIndex].count -= input.count;
-                if (this.input[input.slotIndex].count <= 0) {
-                    this.input[input.slotIndex].id    = null;
-                    this.input[input.slotIndex].count = 0;
-                };
-            };
-        };
-        for (const output of recipe.outputs) {
-            const slot = this.output[output.slotIndex];
-            slot.id     = output.itemId;
-            slot.count += output.count;
-        };
+        const items = Utils.countItems(this.slots);
+        if (Utils.canCraft(items) )
     };
 
     tick(currentTick, recipes, powerNetworks) {
