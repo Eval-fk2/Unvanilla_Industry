@@ -1,17 +1,18 @@
 import * as Main from './main';
 
 export class Slot {
-    constructor(parentId, worldPos, face, dimension) {
+    constructor(parentId, worldPos, face, dimension, slotIndex) {
         this.parentId  = parentId;
         this.worldPos  = worldPos;
         this.face      = face;
         this.dimension = dimension;
+        this.slotIndex     = slotIndex;
     };
 };
 
 export class IOSlot extends Slot {
-    constructor(parentId, worldPos, face, dimension, ioType, contentType) {
-        super(parentId, worldPos, face, dimension);
+    constructor(parentId, worldPos, face, dimension, slotIndex, ioType, contentType) {
+        super(parentId, worldPos, face, dimension, slotIndex);
         this.slotType      = 'IOSlot';
         this.uuid          = `${this.slotType}_${worldPos.x}_${worldPos.y}_${worldPos.z}`;
         this.ioType        = ioType;
@@ -26,8 +27,8 @@ export class IOSlot extends Slot {
 };
 
 export class ElectrodeSlot extends Slot {
-    constructor(parentId, worldPos, face, dimension, electrodeType) {
-        super(parentId, worldPos, face, dimension);
+    constructor(parentId, worldPos, face, dimension, slotIndex, electrodeType) {
+        super(parentId, worldPos, face, dimension, slotIndex);
         this.slotType       = 'ElectrodeSlot';
         this.uuid           = `${this.slotType}_${worldPos.x}_${worldPos.y}_${worldPos.z}`;
         this.electrodeType  = electrodeType;

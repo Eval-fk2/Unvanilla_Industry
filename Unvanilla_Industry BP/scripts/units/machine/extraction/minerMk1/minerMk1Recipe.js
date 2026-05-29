@@ -5,7 +5,7 @@ export const minerMk1Recipe = {
             { type: 'blockDetect', id: 'minecraft:iron_ore' }
         ],
         outputs: [
-            { type: 'item', id: 'minecraft:iron_ore', count: 1}
+            { type: 'item', id: 'minecraft:iron_ore', amount: 1, slotIndex: 0}
         ],
         powerPerMinute: 30,
         durationTick: 20,
@@ -17,7 +17,7 @@ export const minerMk1Recipe = {
             { type: 'blockDetect', id: 'minecraft:coal_ore' }
         ],
         outputs: [
-            { type: 'item', id: 'minecraft:coal_ore', count: 1}
+            { type: 'item', id: 'minecraft:coal_ore', amount: 1, slotIndex: 0}
         ],
         powerPerMinute: 30,
         durationTick: 20,
