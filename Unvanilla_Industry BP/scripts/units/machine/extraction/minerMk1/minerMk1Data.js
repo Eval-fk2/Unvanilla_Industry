@@ -10,6 +10,7 @@ export const minerMk1Data = {
             contentType: 'item',
             localPos: {x: 1, y: 0, z: 0},
             face: 'north',
+            maxAmount: 'contentMaxAmount',
             slotIndex: 0
         },
         {

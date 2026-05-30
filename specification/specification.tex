@@ -1,0 +1,206 @@
+\documentclass[uplatex,dvipdfmx,report]{jlreq}
+\usepackage[fleqn,tbtags]{mathtools}
+\usepackage{jlreq-deluxe}
+\usepackage{url}
+\usepackage[uplatex,deluxe]{otf}
+\usepackage[noalphabet]{pxchfon}
+\usepackage{stix2}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{multirow}
+
+\geometry{margin=25mm}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  frame=single,
+  breaklines=true,
+  numbers=left,
+  numberstyle=\tiny,
+  language=C++
+}
+
+\title{Unvanilla Industry}
+\author{Eval02}
+
+\begin{document}
+
+\maketitle
+
+\chapter{フォルダ構造}
+\begin{table}[H]
+    \centering
+    \caption{scripts}
+    \begin{tabular}{cc}
+        \hline
+        ファイル名 & 機能 \\
+        \hline
+        \hline
+        units & ユニットのデータを保存する \\
+        main.js & メインの処理を行う \\
+        utils.js & 全体で利用するfunctionを所有 \\
+        slotClass.js & スロットに関するclassを所有 \\
+        powerNetworkClass.js & 電気網に関するclassを所有 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{units}
+    \begin{tabular}{ccc}
+        \hline
+        機能別 & 機械種別 & ユニット\\
+        \hline
+        \hline
+        connector & cable & powerCable \\
+        machine & extraction & minerMk1 \\
+         & generator & coalGenerator \\
+         & production & furnaceMachine \\
+        transport & conveyor & conveyorMk1 \\
+         & pipe & pipeMk1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{ユニット内部}
+    \begin{tabular}{cc}
+        \hline
+        ファイル名 & 機能 \\
+        \hline
+        \hline
+        class.js & ユニットの機能を処理するclassを所有 \\
+        data.js & ユニットの初期情報を設定するデータを所有 \\
+        form.js & ユニットのUIを所有 \\
+        recipe.js & ユニットが扱うレシピを所有 \\
+        structure.js & ユニットのブロック構造を所有 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\chapter{scripts直下ファイル内部}
+
+\section{main.js}
+
+\begin{table}
+    \centering
+    \caption{所有オブジェクト}
+    \begin{tabular}{cc}
+        \hline
+        オブジェクト名 & 機能 \\
+        \hline
+        \hline
+        unitUuidMap & ユニットのuuidとユニットのインスタンスを結び付けるmap \\
+        slotUuidMap & スロットのuuidとスロットのインスタンスを結び付けるmap \\
+        slotPosMap & スロットの座標とスロットのインスタンスを結び付けるmap \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{slotClass.js}
+
+\subsection{class一覧}
+\begin{table}
+    \centering
+    \caption{所有class}
+    \begin{tabular}{ccc}
+        \hline
+        class名 & 継承 & 機能 \\
+        \hline
+        \hline
+        Slot & - & スロット系classの共通機能を所有する
+        IOSlot & Slot & アイテム、液体を扱うスロットの機能を所有する
+        ElectrodeSlot & Slot & 電極を扱うスロットの機能を所有する
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Slot}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{c}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        parentId & 親ユニットのuuid \\
+        index & 親ユニットからの自身のスロット番号 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        所有変数 & 機能 \\
+        \hline
+        \hline
+        parentId & 親ユニットのuuid \\
+        parentUnit & 親ユニット \\
+        slotData & スロットの初期セットデータ \\
+        pos & スロットの絶対座標 \\
+        face & スロットの面 \\
+        dimension & スロットのディメンション \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{IOSlot}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{c}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Slotの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        所有変数 & 機能 \\
+        \hline
+        \hline
+        Slotの継承 & - \\
+        content & スロットが所有するコンテンツ \\
+        maxAmount & スロットが所有できるコンテンツの最大量 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{powerNetworkClass.js}
+
+\chapter{各ユニット内部}
+
+\section{minerMk1}
+
+\section{furnaceMachine}
+
+\section{conveyorMk1}
+
+\end{document}

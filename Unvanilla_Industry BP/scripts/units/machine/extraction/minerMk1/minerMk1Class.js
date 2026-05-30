@@ -19,7 +19,8 @@ export class MinerMk1Node {
         this.pos             = pos;
         this.direction       = direction;
         this.dimension       = dimension;
-        this.slots           = initSlots(this);
+        this.slots           = Utils.initSlots(this);
+        this.isSlotChanged   = false;
         this.status          = 'IDLE';
         this.powerNetworkId  = null;
         this.currentRecipeId = null;
@@ -116,7 +117,8 @@ export class MinerMk1Node {
         if (connectUnit?.powerNetworkId) {
             const powerNetwork = Main.powerNetworkMap.get(connectUnit.powerNetworkId);
             powerNetwork.addUnit(this);
-        } else {
+        }
+        else {
             const powerNetwork = new PN.PowerNetwork();
             powerNetwork.addUnit(this);
             powerNetwork.addUnit(connectUnit);
@@ -126,7 +128,7 @@ export class MinerMk1Node {
     getCurrentPowerConsumption() {
         if (!this.currentRecipeId) return 0;
         return MinerMk1Node.unitRecipe[this.currentRecipeId]?.powerPerMinute ?? 0;
-    }
+    };
 
     // ----------------------------------------------------------
     // blockSensor
@@ -140,7 +142,7 @@ export class MinerMk1Node {
             this.direction
         );
         this.detectedBlockId = this.dimension.getBlock(sensorWorldPos)?.typeId ?? null;
-    }
+    };
 
     // ----------------------------------------------------------
     // レシピ
@@ -151,32 +153,31 @@ export class MinerMk1Node {
         this.status          = 'IDLE';
         this.cycleStartTick  = null;
         this.cycleEndTick    = null;
-    }
+    };
 
     // inputスロットの中身を { itemId: count } のMapにまとめる
     getInputMap() {
         const map = new Map();
         for (const slot of this.slots) {
-            if (slot.slotType !== 'IOSlot' || slot.ioType !== 'input') continue;
-            if (!slot.content) continue;
+            if (slot.slotType !== 'IOSlot' || slot.ioType !== 'input' || !slot.content) continue;
             map.set(slot.content.typeId, (map.get(slot.content.typeId) ?? 0) + slot.content.amount);
-        }
+        };
         return map;
-    }
+    };
 
     checkInputs(recipe) {
         // blockDetectの確認
         for (const input of recipe.inputs) {
             if (input.type === 'blockDetect' && this.detectedBlockId !== input.id) return false;
-        }
+        };
         // itemの確認
         const inputMap = this.getInputMap();
         for (const input of recipe.inputs) {
             if (input.type !== 'item') continue;
             if ((inputMap.get(input.id) ?? 0) < input.amount) return false;
-        }
+        };
         return true;
-    }
+    };
 
     checkOutputs(recipe) {
         for (const output of recipe.outputs) {
@@ -189,37 +190,55 @@ export class MinerMk1Node {
             if (!slot) return false;
             if (slot.content && slot.content.typeId !== output.id) return false;
             if ((slot.content?.amount ?? 0) + output.amount > slot.maxAmount) return false;
-        }
+        };
         return true;
-    }
+    };
 
     processRecipe(recipe) {
+        if (!this.checkInputs(recipe) || !this.checkOutputs(recipe)) return;
         // input消費
-        const required = recipe.inputs.filter(i => i.type === 'item');
-        for (const slot of this.slots) {
-            if (slot.slotType !== 'IOSlot' || slot.ioType !== 'input' || !slot.content) continue;
-            const req = required.find(r => r.id === slot.content.typeId);
-            if (!req) continue;
-            slot.content.amount -= req.amount;
-            if (slot.content.amount <= 0) slot.content = null;
-        }
+        for (const input of recipe.inputs) {
+            let remaining = input.amount;
+
+            // indexの小さい順にinputスロットを探索
+            const inputSlots = this.slots
+                .filter(slot =>
+                    slot.slotType === 'IOSlot' &&
+                    slot.ioType === 'input' &&
+                    slot.contentType === input.type &&
+                    slot.content &&
+                    slot.content.typeId === input.id
+                )
+                .sort((a, b) => (a.slotIndex ?? 0) - (b.slotIndex ?? 0));
+            for (const slot of inputSlots) {
+                if (remaining <= 0) break;
+                const consume = Math.min(slot.content.amount, remaining);
+                slot.content.amount -= consume;
+                remaining -= consume;
+                if (slot.content.amount <= 0) slot.content = null;
+            };
+        };
 
         // output生産
         for (const output of recipe.outputs) {
-            const slot = this.slots.find(s =>
-                s.slotType  === 'IOSlot' &&
-                s.ioType    === 'output' &&
-                s.slotIndex === output.slotIndex
+            const outputSlot = this.slots.find(slot =>
+                slot.slotType  === 'IOSlot' &&
+                slot.ioType    === 'output' &&
+                slot.contentType === output.type &&
+                slot.slotIndex === output.slotIndex
             );
-            if (!slot) continue;
-            if (slot.content) {
-                slot.content.amount += output.amount;
-            } else {
-                slot.content = { typeId: output.id, amount: output.amount };
-                slot.maxAmount = new ItemStack(output.id).maxAmount;
+            if (!outputSlot) continue;
+            if (outputSlot.content) {
+                outputSlot.content.amount += output.amount;
             }
-        }
-    }
+            else {
+                if (output.type === 'item') {
+                    outputSlot.content = new ItemStack(output.id, output.amount);
+                    
+                }
+            };
+        };
+    };
 
     // ----------------------------------------------------------
     // tick
@@ -234,7 +253,7 @@ export class MinerMk1Node {
         if (network && !network.isPowered) {
             this.status = 'BLACKOUT';
             return;
-        }
+        };
 
         this.updateBlockSensor();
 
@@ -243,19 +262,19 @@ export class MinerMk1Node {
             this.cycleStartTick = null;
             this.cycleEndTick   = null;
             return;
-        }
+        };
 
         if (!this.checkOutputs(recipe)) {
             this.status = 'WAITING_OUTPUT';
             return;
-        }
+        };
 
         if (this.cycleStartTick === null) {
             this.cycleStartTick = currentTick;
             this.cycleEndTick   = currentTick + recipe.durationTick;
             this.status         = 'RUNNING';
             return;
-        }
+        };
 
         if (currentTick >= this.cycleEndTick) {
             const completedCycles = Math.floor(
@@ -270,7 +289,7 @@ export class MinerMk1Node {
             }
             this.cycleStartTick += recipe.durationTick * completedCycles;
             this.cycleEndTick    = this.cycleStartTick + recipe.durationTick;
-        }
+        };
     }
 
     // ----------------------------------------------------------
@@ -279,7 +298,7 @@ export class MinerMk1Node {
 
     openUI(player) {
         minerMk1Form(player, this);
-    }
+    };
 
     // ----------------------------------------------------------
     // 破壊時の後処理
@@ -293,17 +312,17 @@ export class MinerMk1Node {
             if (targetSlot) targetSlot.connectId = null;
             Main.slotPosMap.delete(posKey(slot.worldPos));
             Main.slotUuidMap.delete(slot.uuid);
-        }
+        };
 
         // 電力ネットワークから離脱
         const network = Main.powerNetworks.get(this.powerNetworkId);
         if (network) {
             network.memberIds = network.memberIds.filter(id => id !== this.uuid);
             if (network.memberIds.length === 0) Main.powerNetworks.delete(this.powerNetworkId);
-        }
+        };
 
         Main.unitUuidMap.delete(this.uuid);
-    }
+    };
 
     // ----------------------------------------------------------
     // シリアライズ
@@ -320,7 +339,7 @@ export class MinerMk1Node {
             status, powerNetworkId, currentRecipeId,
             cycleStartTick, cycleEndTick, detectedBlockId
         };
-    }
+    };
 
     static fromJSON(data, dimension) {
         const node = new MinerMk1Node(data.pos, data.direction, dimension, true);
@@ -337,7 +356,7 @@ export class MinerMk1Node {
         for (const slot of node.slots) {
             Main.slotPosMap.set(Utils.posKey(slot.worldPos), slot);
             Main.slotUuidMap.set(slot.uuid, slot);
-        }
+        };
         return node;
-    }
-}
+    };
+};
