@@ -127,12 +127,27 @@
 
 \subsection{Slot}
 
+Slot系Classの基本的な役割を担う．
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        接続先を探索する & searchConnect \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \subsubsection{constructor}
 
 \begin{table}
     \centering
     \caption{入力}
-    \begin{tabular}{c}
+    \begin{tabular}{cc}
         \hline
         変数名 & 機能 \\
         \hline
@@ -153,22 +168,61 @@
         \hline
         parentId & 親ユニットのuuid \\
         parentUnit & 親ユニット \\
+        index & 自身のスロット番号 \\
         slotData & スロットの初期セットデータ \\
         pos & スロットの絶対座標 \\
         face & スロットの面 \\
         dimension & スロットのディメンション \\
+        connectId & 接続先スロットのuuid \\
+        connectSlot & 接続先スロット \\
         \hline
     \end{tabular}
 \end{table}
 
+\subsubsection{searchConnect}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+pos，faceより接続先座標を計算．\\
+接続先座標をもとにMain.slotPosMapよりslotを探索．\\
+connectIdに接続先slotのuuidを代入し，接続先slotのconnectIdに自分のuuidを代入する．
+
 \subsection{IOSlot}
+
+Slotを継承．アイテム及び液体の入出力スロットの役割を担う．
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        接続先を探索する & searchConnect \\
+        inputスロットにアイテムを入力する & inputItem \\
+        outputスロットからアイテムを出力する & outputItem \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \subsubsection{constructor}
 
 \begin{table}
     \centering
     \caption{入力}
-    \begin{tabular}{c}
+    \begin{tabular}{cc}
         \hline
         変数名 & 機能 \\
         \hline
@@ -193,11 +247,66 @@
     \end{tabular}
 \end{table}
 
+\subsubsection{inputItem}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+接続先スロットからアイテムを移動させる．
+
+\subsubsection{outputItem}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+接続先スロットにアイテムを移動する．
+
+\subsection{ElectrodeSlot}
+
 \section{powerNetworkClass.js}
 
 \chapter{各ユニット内部}
 
 \section{minerMk1}
+
+\subsection{minerMk1Data.js}
+
+\begin{table}
+    \centering
+    \caption{データ構造}
+    \begin{tabular}{ccc}
+        \hline
+        プロパティ名 & 値 & 機能 \\
+        \hline
+        \hline
+        typeId & minerMk1 & ユニットの種別ごとのid \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{minerMk1Class.js}
+
+\subsection{minerMk1Recipe.js}
 
 \section{furnaceMachine}
 
