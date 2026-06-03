@@ -1,4 +1,4 @@
-import * as Slot from './slot';
+import * as Slot from './slotClass';
 
 
 export function genUuid() {};

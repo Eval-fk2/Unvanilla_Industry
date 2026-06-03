@@ -49,6 +49,7 @@
         utils.js & 全体で利用するfunctionを所有 \\
         slotClass.js & スロットに関するclassを所有 \\
         powerNetworkClass.js & 電気網に関するclassを所有 \\
+        unitClass.js & ユニット系のclassの継承関係を管理する \\
         \hline
     \end{tabular}
 \end{table}
@@ -56,17 +57,17 @@
 \begin{table}[H]
     \centering
     \caption{units}
-    \begin{tabular}{ccc}
+    \begin{tabular}{c}
         \hline
-        機能別 & 機械種別 & ユニット\\
+        ユニット\\
         \hline
         \hline
-        connector & cable & powerCable \\
-        machine & extraction & minerMk1 \\
-         & generator & coalGenerator \\
-         & production & furnaceMachine \\
-        transport & conveyor & conveyorMk1 \\
-         & pipe & pipeMk1 \\
+        powerCable \\
+        minerMk1 \\
+        coalGenerator \\
+        furnaceMachine \\
+        conveyorMk1 \\
+        pipeMk1 \\
         \hline
     \end{tabular}
 \end{table}
@@ -103,6 +104,7 @@
         unitUuidMap & ユニットのuuidとユニットのインスタンスを結び付けるmap \\
         slotUuidMap & スロットのuuidとスロットのインスタンスを結び付けるmap \\
         slotPosMap & スロットの座標とスロットのインスタンスを結び付けるmap \\
+        powerNetworkMap & パワーネットワークのuuidとインスタンスを結び付けるmap \\
         \hline
     \end{tabular}
 \end{table}
@@ -284,6 +286,466 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 \subsection{ElectrodeSlot}
 
 \section{powerNetworkClass.js}
+
+\section{unitClass.js}
+
+\subsection{class一覧}
+\begin{table}
+    \centering
+    \caption{所有class}
+    \begin{tabular}{ccc}
+        \hline
+        class名 & 継承 & 機能 \\
+        \hline
+        \hline
+        Unit & - & 全ユニットの共通機能を所有する \\
+        Machine & Unit & 機械系ユニットの共通機能を所有する \\
+        Extraction & Machine & 資源採取系ユニットの共通機能を所有する \\
+        Generator & Machine & 発電機系ユニットの共通機能を所有する \\
+        Production & machine & 生産系ユニットの共通機能を所有する \\
+        Transport & Unit & 輸送系ユニットの共通機能を所有する \\
+        Conveyor & Transport & コンベヤ系ユニットの共通機能を所有する \\
+        Pipe & Transport & パイプ系ユニットの共通機能を所有する \\
+        Connector & Unit & コネクタ系ユニットの共通機能を所有する \\
+        Cable & Unit & ケーブル系ユニットの共通機能を所有する \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Unit}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        pos & ユニットの絶対座標 \\
+        dimension & ユニットのディメンション \\
+        direction & ユニットの設置方向 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        uuid & ユニット別のuuid \\
+        pos & ユニットの絶対座標 \\
+        dimension & ユニットのディメンション \\
+        direction & ユニットの設置方向 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Machine}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Extraction}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Generator}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Production}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Machineの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Transport}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Conveyor}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Transportの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Transportの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Pipe}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Transportの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Transportの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Connector}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Unitの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Cable}
+
+\begin{table}
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        なし & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        入力 & 機能 \\
+        \hline
+        \hline
+        Connectorの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Connectorの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \chapter{各ユニット内部}
 
