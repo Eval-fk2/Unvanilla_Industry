@@ -54,7 +54,7 @@
     \end{tabular}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[H][H]
     \centering
     \caption{units}
     \begin{tabular}{c}
@@ -93,7 +93,7 @@
 
 \section{main.js}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{所有オブジェクト}
     \begin{tabular}{cc}
@@ -112,7 +112,7 @@
 \section{slotClass.js}
 
 \subsection{class一覧}
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{所有class}
     \begin{tabular}{ccc}
@@ -120,9 +120,9 @@
         class名 & 継承 & 機能 \\
         \hline
         \hline
-        Slot & - & スロット系classの共通機能を所有する
-        IOSlot & Slot & アイテム、液体を扱うスロットの機能を所有する
-        ElectrodeSlot & Slot & 電極を扱うスロットの機能を所有する
+        Slot & - & スロット系classの共通機能を所有する \\
+        IOSlot & Slot & アイテム、液体を扱うスロットの機能を所有する \\
+        ElectrodeSlot & Slot & 電極を扱うスロットの機能を所有する \\
         \hline
     \end{tabular}
 \end{table}
@@ -131,7 +131,7 @@
 
 Slot系Classの基本的な役割を担う．
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -146,7 +146,7 @@ Slot系Classの基本的な役割を担う．
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -160,7 +160,7 @@ Slot系Classの基本的な役割を担う．
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -183,7 +183,7 @@ Slot系Classの基本的な役割を担う．
 
 \subsubsection{searchConnect}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -204,7 +204,7 @@ connectIdに接続先slotのuuidを代入し，接続先slotのconnectIdに自�
 
 Slotを継承．アイテム及び液体の入出力スロットの役割を担う．
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -221,7 +221,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -234,7 +234,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -251,7 +251,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{inputItem}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -268,7 +268,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{outputItem}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -290,7 +290,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 \section{unitClass.js}
 
 \subsection{class一覧}
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{所有class}
     \begin{tabular}{ccc}
@@ -314,7 +314,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Unit}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -329,7 +329,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -344,7 +344,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -362,7 +362,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Machine}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -377,7 +377,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -390,7 +390,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -405,7 +405,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Extraction}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -420,7 +420,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -433,7 +433,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -448,7 +448,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Generator}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -463,7 +463,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -476,7 +476,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -491,7 +491,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Production}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -506,7 +506,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -519,7 +519,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -534,7 +534,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Transport}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -549,7 +549,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -562,7 +562,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -577,7 +577,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Conveyor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -592,7 +592,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -605,7 +605,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -620,7 +620,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Pipe}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -635,7 +635,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -648,7 +648,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -663,7 +663,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Connector}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -678,7 +678,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -691,7 +691,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -706,7 +706,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Cable}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{必要な機能}
     \begin{tabular}{cc}
@@ -721,7 +721,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsubsection{constructor}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{入力}
     \begin{tabular}{cc}
@@ -734,7 +734,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
     \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{変数}
     \begin{tabular}{cc}
@@ -753,7 +753,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{minerMk1Data.js}
 
-\begin{table}
+\begin{table}[H]
     \centering
     \caption{データ構造}
     \begin{tabular}{ccc}
@@ -762,6 +762,25 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         typeId & minerMk1 & ユニットの種別ごとのid \\
+        category & MACHINE & ユニットのカテゴリ \\
+        subCategory & EXTRACTION & ユニットのサブカテゴリ \\
+        inputSlots & なし & 入力スロットの設定 \\
+        outputSlots & 配列（1つ） & 出力スロットの設定 \\
+        electrodeSlots & 配列（1つ） & 電極スロットの設定 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{inputSlots}
+    \begin{tabular}{ccc}
+        \hline
+        プロパティ名 & 値 & 機能 \\
+        \hline
+        \hline
+        slotType & IOSlot &
+        ioType & input &
         \hline
     \end{tabular}
 \end{table}
