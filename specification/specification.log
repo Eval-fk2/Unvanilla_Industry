@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.uptex) (TeX Live 2025) (preloaded format=uplatex 2025.4.24)  4 JUN 2026 13:03
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.uptex) (TeX Live 2025) (preloaded format=uplatex 2025.4.24)  5 JUN 2026 11:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -791,9 +791,21 @@ LaTeX Font Info:    Font shape `JY2/hgt/bx/n' will be
 
 [9]
 
-[10
+[10]
 
-] (./specification.aux)
+[11]
+
+[12
+
+]
+
+[13]
+
+[14]
+
+[15]
+
+[16] (./specification.aux)
  ***********
 pLaTeX2e <2023-02-14u04>+1, based on
 LaTeX2e <2024-11-01> patch level 2
@@ -809,4 +821,4 @@ Here is how much of TeX's memory you used:
  929 hyphenation exceptions out of 8191
  92i,8n,105p,895b,1025s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on specification.dvi (11 pages, 19980 bytes).
+Output written on specification.dvi (17 pages, 33460 bytes).

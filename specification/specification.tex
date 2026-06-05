@@ -54,7 +54,7 @@
     \end{tabular}
 \end{table}
 
-\begin{table}[H][H]
+\begin{table}[H]
     \centering
     \caption{units}
     \begin{tabular}{c}
@@ -285,7 +285,143 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{ElectrodeSlot}
 
+Slotを継承．電極スロットの役割を担う．
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        接続先を探索する & searchConnect \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}[H]
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        Slotの継承 & - \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        所有変数 & 機能 \\
+        \hline
+        \hline
+        Slotの継承 & - \\
+        electrodeType & 電気の発電，消費，接続を判別（generate/consume/connect） \\
+        powerPerMinute & 分間電力量（generate: 発電量，consume: 消費量，connect: 0） \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \section{powerNetworkClass.js}
+
+\subsection{class一覧}
+
+\begin{table}[H]
+    \centering
+    \caption{所有class}
+    \begin{tabular}{ccc}
+        \hline
+        class名 & 継承 & 機能 \\
+        \hline
+        \hline
+        PowerNetwork & - & 電気網の管理を行う \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{PowerNetwork}
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        電力の更新 & updatePower \\
+        メンバーの追加 & addMember \\
+        メンバーの削除 & removeMember \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{constructor}
+
+\begin{table}[H]
+    \centering
+    \caption{変数}
+    \begin{tabular}{cc}
+        \hline
+        所有変数 & 機能 \\
+        \hline
+        \hline
+        uuid & ネットワークのuuid \\
+        memberIds & 所属ユニットのuuidリスト \\
+        isPowered & 電力供給状態 \\
+        generationPerMinute & 分間発電量 \\
+        consumptionPerMinute & 分間消費量 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{updatePower}
+
+全メンバーの発電量・消費量を集計し，isPoweredを更新する．\\
+発電量が消費量を上回る場合はisPoweredをtrueに，下回る場合はfalseにする．
+
+\subsubsection{addMember}
+
+\begin{table}[H]
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        unitId & 追加するユニットのuuid \\
+        \hline
+    \end{tabular}
+\end{table}
+
+memberIdsにunitIdを追加しupdatePowerを呼ぶ．
+
+\subsubsection{removeMember}
+
+\begin{table}[H]
+    \centering
+    \caption{入力}
+    \begin{tabular}{cc}
+        \hline
+        変数名 & 機能 \\
+        \hline
+        \hline
+        unitId & 削除するユニットのuuid \\
+        \hline
+    \end{tabular}
+\end{table}
+
+memberIdsからunitIdを削除しupdatePowerを呼ぶ．\\
+memberIdsが空になった場合はpowerNetworkMapから自身を削除する．
 
 \section{unitClass.js}
 
@@ -302,17 +438,19 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         Machine & Unit & 機械系ユニットの共通機能を所有する \\
         Extraction & Machine & 資源採取系ユニットの共通機能を所有する \\
         Generator & Machine & 発電機系ユニットの共通機能を所有する \\
-        Production & machine & 生産系ユニットの共通機能を所有する \\
+        Production & Machine & 生産系ユニットの共通機能を所有する \\
         Transport & Unit & 輸送系ユニットの共通機能を所有する \\
         Conveyor & Transport & コンベヤ系ユニットの共通機能を所有する \\
         Pipe & Transport & パイプ系ユニットの共通機能を所有する \\
         Connector & Unit & コネクタ系ユニットの共通機能を所有する \\
-        Cable & Unit & ケーブル系ユニットの共通機能を所有する \\
+        Cable & Connector & ケーブル系ユニットの共通機能を所有する \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Unit}
+
+全ユニットの基底クラス．
 
 \begin{table}[H]
     \centering
@@ -322,7 +460,12 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         機能 & メソッド名 \\
         \hline
         \hline
-        なし & - \\
+        設置時のブロック配置 & setStructure \\
+        接続先の探索 & searchConnect \\
+        アニメーション & animation \\
+        破壊時の後処理 & onDestroy \\
+        シリアライズ & serialize \\
+        デシリアライズ & fromJSON \\
         \hline
     \end{tabular}
 \end{table}
@@ -356,12 +499,15 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         pos & ユニットの絶対座標 \\
         dimension & ユニットのディメンション \\
         direction & ユニットの設置方向 \\
+        slots & スロットのリスト \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Machine}
 
+Unitを継承．機械系ユニットの共通機能を担う．
+
 \begin{table}[H]
     \centering
     \caption{必要な機能}
@@ -370,7 +516,12 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         機能 & メソッド名 \\
         \hline
         \hline
-        なし & - \\
+        電力ネットワークへの参加 & joinPowerNetwork \\
+        入力スロットの変化検知 & inputChange \\
+        出力スロットの変化検知 & outputChange \\
+        レシピ選択UIの実行 & selectRecipe \\
+        レシピの処理 & doRecipe \\
+        tickの処理 & tick \\
         \hline
     \end{tabular}
 \end{table}
@@ -399,12 +550,19 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         Unitの継承 & - \\
+        status & 機械の動作状態（IDLE/RUNNING/WAITING\_OUTPUT/BLACKOUT） \\
+        powerNetworkId & 所属する電力ネットワークのuuid \\
+        currentRecipeId & 現在選択中のレシピのid \\
+        cycleStartTick & 現在のサイクルの開始tick \\
+        cycleEndTick & 現在のサイクルの終了tick \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Extraction}
 
+Machineを継承．資源採取系ユニットの共通機能を担う．
+
 \begin{table}[H]
     \centering
     \caption{必要な機能}
@@ -413,7 +571,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         機能 & メソッド名 \\
         \hline
         \hline
-        なし & - \\
+        blockSensorの更新 & updateBlockSensor \\
         \hline
     \end{tabular}
 \end{table}
@@ -442,12 +600,15 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         Machineの継承 & - \\
+        detectedBlockId & blockSensorが検知したブロックのid \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Generator}
 
+Machineを継承．発電機系ユニットの共通機能を担う．
+
 \begin{table}[H]
     \centering
     \caption{必要な機能}
@@ -456,7 +617,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         機能 & メソッド名 \\
         \hline
         \hline
-        なし & - \\
+        ブレーカーの操作 & toggleBreaker \\
         \hline
     \end{tabular}
 \end{table}
@@ -485,24 +646,14 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         Machineの継承 & - \\
+        breakerActive & ブレーカーの状態 \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Production}
 
-\begin{table}[H]
-    \centering
-    \caption{必要な機能}
-    \begin{tabular}{cc}
-        \hline
-        機能 & メソッド名 \\
-        \hline
-        \hline
-        なし & - \\
-        \hline
-    \end{tabular}
-\end{table}
+Machineを継承．生産系ユニットの共通機能を担う．
 
 \subsubsection{constructor}
 
@@ -534,6 +685,8 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Transport}
 
+Unitを継承．輸送系ユニットの共通機能を担う．
+
 \begin{table}[H]
     \centering
     \caption{必要な機能}
@@ -542,7 +695,8 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         機能 & メソッド名 \\
         \hline
         \hline
-        なし & - \\
+        アイテムの輸送 & transportItem \\
+        tickの処理 & tick \\
         \hline
     \end{tabular}
 \end{table}
@@ -571,24 +725,15 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         Unitの継承 & - \\
+        currentContent & 現在保持しているコンテンツ \\
+        nextContent & 次tickに反映するコンテンツ（ダブルバッファリング用） \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Conveyor}
 
-\begin{table}[H]
-    \centering
-    \caption{必要な機能}
-    \begin{tabular}{cc}
-        \hline
-        機能 & メソッド名 \\
-        \hline
-        \hline
-        なし & - \\
-        \hline
-    \end{tabular}
-\end{table}
+Transportを継承．コンベヤ系ユニットの共通機能を担う．
 
 \subsubsection{constructor}
 
@@ -620,18 +765,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Pipe}
 
-\begin{table}[H]
-    \centering
-    \caption{必要な機能}
-    \begin{tabular}{cc}
-        \hline
-        機能 & メソッド名 \\
-        \hline
-        \hline
-        なし & - \\
-        \hline
-    \end{tabular}
-\end{table}
+Transportを継承．パイプ系ユニットの共通機能を担う．
 
 \subsubsection{constructor}
 
@@ -657,24 +791,15 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
         \hline
         \hline
         Transportの継承 & - \\
+        pumpId & 影響を受けるポンプのuuid \\
+        role & ポンプに対する役割（source/dest） \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{Connector}
 
-\begin{table}[H]
-    \centering
-    \caption{必要な機能}
-    \begin{tabular}{cc}
-        \hline
-        機能 & メソッド名 \\
-        \hline
-        \hline
-        なし & - \\
-        \hline
-    \end{tabular}
-\end{table}
+Unitを継承．コネクタ系ユニットの共通機能を担う．
 
 \subsubsection{constructor}
 
@@ -706,18 +831,7 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \subsection{Cable}
 
-\begin{table}[H]
-    \centering
-    \caption{必要な機能}
-    \begin{tabular}{cc}
-        \hline
-        機能 & メソッド名 \\
-        \hline
-        \hline
-        なし & - \\
-        \hline
-    \end{tabular}
-\end{table}
+Connectorを継承．電力ケーブルの共通機能を担う．
 
 \subsubsection{constructor}
 
@@ -749,6 +863,60 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 
 \chapter{各ユニット内部}
 
+\section{基本的なデータ構造}
+
+\begin{table}[H]
+    \centering
+    \caption{データ構造}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 機能 \\
+        \hline
+        \hline
+        typeId & ユニットの種別ごとのid \\
+        category & ユニットのカテゴリ \\
+        subCategory & ユニットのサブカテゴリ \\
+        inputSlots & 入力スロットの設定 \\
+        outputSlots & 出力スロットの設定 \\
+        electrodeSlots & 電極スロットの設定 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{入出力スロット}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 機能 \\
+        \hline
+        \hline
+        slotType & スロットの種別ごとのid \\
+        ioType & 入力，出力を判別 \\
+        localPos & スロットの相対座標 \\
+        face & スロットの面 \\
+        contentType & 扱うコンテンツの種別 \\
+        maxAmount & スロットの最大スタック数 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{電極スロット}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 機能 \\
+        \hline
+        \hline
+        slotType & スロットの種別ごとのid \\
+        electrodeType & 電気の発電，消費，接続を判別 \\
+        localPos & スロットの相対座標 \\
+        face & スロットの面 \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \section{minerMk1}
 
 \subsection{minerMk1Data.js}
@@ -756,41 +924,220 @@ Slotを継承．アイテム及び液体の入出力スロットの役割を担�
 \begin{table}[H]
     \centering
     \caption{データ構造}
-    \begin{tabular}{ccc}
+    \begin{tabular}{cc}
         \hline
-        プロパティ名 & 値 & 機能 \\
-        \hline
-        \hline
-        typeId & minerMk1 & ユニットの種別ごとのid \\
-        category & MACHINE & ユニットのカテゴリ \\
-        subCategory & EXTRACTION & ユニットのサブカテゴリ \\
-        inputSlots & なし & 入力スロットの設定 \\
-        outputSlots & 配列（1つ） & 出力スロットの設定 \\
-        electrodeSlots & 配列（1つ） & 電極スロットの設定 \\
-        \hline
-    \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \centering
-    \caption{inputSlots}
-    \begin{tabular}{ccc}
-        \hline
-        プロパティ名 & 値 & 機能 \\
+        プロパティ名 & 値 \\
         \hline
         \hline
-        slotType & IOSlot &
-        ioType & input &
+        typeId & minerMk1 \\
+        category & MACHINE \\
+        subCategory & EXTRACTION \\
+        inputSlots & 0 \\
+        outputSlots & 1 \\
+        electrodeSlots & 1 \\
         \hline
     \end{tabular}
 \end{table}
 
 \subsection{minerMk1Class.js}
 
+Extractionを継承．
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        設置時のブロック配置 & setStructure \\
+        入力スロットの変化検知 & inputChange \\
+        出力スロットの変化検知 & outputChange \\
+        レシピ選択UIの実行 & selectRecipe \\
+        レシピの処理 & doRecipe \\
+        アニメーション & animation \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \subsection{minerMk1Recipe.js}
+
+\begin{table}[H]
+    \centering
+    \caption{レシピ一覧}
+    \begin{tabular}{ccccc}
+        \hline
+        レシピid & 入力 & 出力 & 消費電力(w/m) & 処理時間(tick) \\
+        \hline
+        \hline
+        minerIron & 鉄鉱石ブロック検知 & 鉄鉱石x1 & 30 & 20 \\
+        minerCoal & 石炭鉱石ブロック検知 & 石炭鉱石x1 & 30 & 20 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{coalGenerator}
+
+\subsection{coalGeneratorData.js}
+
+\begin{table}[H]
+    \centering
+    \caption{データ構造}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 値 \\
+        \hline
+        \hline
+        typeId & coalGenerator \\
+        category & MACHINE \\
+        subCategory & GENERATOR \\
+        inputSlots & 1 \\
+        outputSlots & 0 \\
+        electrodeSlots & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{coalGeneratorClass.js}
+
+Generatorを継承．
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        設置時のブロック配置 & setStructure \\
+        入力スロットの変化検知 & inputChange \\
+        出力スロットの変化検知 & outputChange \\
+        レシピ選択UIの実行 & selectRecipe \\
+        レシピの処理 & doRecipe \\
+        アニメーション & animation \\
+        ブレーカーの操作 & toggleBreaker \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{coalGeneratorRecipe.js}
+
+\begin{table}[H]
+    \centering
+    \caption{レシピ一覧}
+    \begin{tabular}{ccccc}
+        \hline
+        レシピid & 入力 & 出力 & 発電量(w/m) & 処理時間(tick) \\
+        \hline
+        \hline
+        genCoal & 石炭x1 & なし & 300 & 20 \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \section{furnaceMachine}
 
+\subsection{furnaceMachineData.js}
+
+\begin{table}[H]
+    \centering
+    \caption{データ構造}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 値 \\
+        \hline
+        \hline
+        typeId & furnaceMachine \\
+        category & MACHINE \\
+        subCategory & PRODUCTION \\
+        inputSlots & 1 \\
+        outputSlots & 1 \\
+        electrodeSlots & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{furnaceMachineClass.js}
+
+Productionを継承．
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        設置時のブロック配置 & setStructure \\
+        入力スロットの変化検知 & inputChange \\
+        出力スロットの変化検知 & outputChange \\
+        レシピ選択UIの実行 & selectRecipe \\
+        レシピの処理 & doRecipe \\
+        アニメーション & animation \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{furnaceMachineRecipe.js}
+
+\begin{table}[H]
+    \centering
+    \caption{レシピ一覧}
+    \begin{tabular}{ccccc}
+        \hline
+        レシピid & 入力 & 出力 & 消費電力(w/m) & 処理時間(tick) \\
+        \hline
+        \hline
+        smeltIron & 鉄鉱石x1 & 鉄インゴットx1 & 30 & 20 \\
+        smeltCoal & 石炭鉱石x1 & 石炭x1 & 30 & 20 \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \section{conveyorMk1}
+
+\subsection{conveyorMk1Data.js}
+
+\begin{table}[H]
+    \centering
+    \caption{データ構造}
+    \begin{tabular}{cc}
+        \hline
+        プロパティ名 & 値 \\
+        \hline
+        \hline
+        typeId & conveyorMk1 \\
+        category & TRANSPORT \\
+        subCategory & CONVEYOR \\
+        inputSlots & 1 \\
+        outputSlots & 1 \\
+        electrodeSlots & 0 \\
+        speedPerMinute & 60 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{conveyorMk1Class.js}
+
+Conveyorを継承．
+
+\begin{table}[H]
+    \centering
+    \caption{必要な機能}
+    \begin{tabular}{cc}
+        \hline
+        機能 & メソッド名 \\
+        \hline
+        \hline
+        設置時のブロック配置 & setStructure \\
+        アイテムの輸送 & transportItem \\
+        次tickへの反映 & applyNext \\
+        アニメーション & animation \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \end{document}
