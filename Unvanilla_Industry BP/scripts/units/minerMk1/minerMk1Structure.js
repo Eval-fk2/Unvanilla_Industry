@@ -2,170 +2,100 @@ export const minerMk1Structure = {
     centerOffset: {x: 1.5, y: 0.0, z: 1.5},
     blocks: [
         {
-            id: 'uvi:miner_mk1_0_0_0',
-            localPos: {x: 0, y: 0, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_0_0',
+            localPos: {x: 0, y: 0, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_1_0_0',
-            localPos: {x: 1, y: 0, z: 0},
-            roles: {
-                north: {type: 'output', slotType: 'item', slotIndex: 0}
-            },
-            animations: []
+            typeId: 'uvi:miner_mk1_1_0_0',
+            localPos: {x: 1, y: 0, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_2_0_0',
-            localPos: {x: 2, y: 0, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_0_0',
+            localPos: {x: 2, y: 0, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_0_0_1',
-            localPos: {x: 0, y: 0, z: 1},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_0_1',
+            localPos: {x: 0, y: 0, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_2_0_1',
-            localPos: {x: 2, y: 0, z: 1},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_0_1',
+            localPos: {x: 2, y: 0, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_0_0_2',
-            localPos: {x: 0, y: 0, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_0_2',
+            localPos: {x: 0, y: 0, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_1_0_2',
-            localPos: {x: 1, y: 0, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_1_0_2',
+            localPos: {x: 1, y: 0, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_2_0_2',
-            localPos: {x: 2, y: 0, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_0_2',
+            localPos: {x: 2, y: 0, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_0_1_0',
-            localPos: {x: 0, y: 1, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_1_0',
+            localPos: {x: 0, y: 1, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_1_1_0',
-            localPos: {x: 1, y: 1, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_1_1_0',
+            localPos: {x: 1, y: 1, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_2_1_0',
-            localPos: {x: 2, y: 1, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_1_0',
+            localPos: {x: 2, y: 1, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_0_1_1',
-            localPos: {x: 0, y: 1, z: 1},
-            roles: {},
-            animations: [
-                {
-                    id: 'mining',
-                    frames: [0, 1, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-                }
-            ]
+            typeId: 'uvi:miner_mk1_0_1_1',
+            localPos: {x: 0, y: 1, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_2_1_1',
-            localPos: {x: 2, y: 1, z: 1},
-            roles: {},
-            animations: [
-                {
-                    id: 'mining',
-                    frames: [0, 1, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-                }
-            ]
+            typeId: 'uvi:miner_mk1_2_1_1',
+            localPos: {x: 2, y: 1, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_0_1_2',
-            localPos: {x: 0, y: 1, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_1_2',
+            localPos: {x: 0, y: 1, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_1_1_2',
-            localPos: {x: 1, y: 1, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_1_1_2',
+            localPos: {x: 1, y: 1, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_2_1_2',
-            localPos: {x: 2, y: 1, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_1_2',
+            localPos: {x: 2, y: 1, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_0_2_0',
-            localPos: {x: 0, y: 2, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_2_0',
+            localPos: {x: 0, y: 2, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_1_2_0',
-            localPos: {x: 1, y: 2, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_1_2_0',
+            localPos: {x: 1, y: 2, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_2_2_0',
-            localPos: {x: 2, y: 2, z: 0},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_2_0',
+            localPos: {x: 2, y: 2, z: 0}
         },
         {
-            id: 'uvi:miner_mk1_0_2_1',
-            localPos: {x: 0, y: 2, z: 1},
-            roles: {},
-            animations: [
-                {
-                    id: 'mining',
-                    frames: [3, 4, 5, 6, 7, 8]
-                }
-            ]
+            typeId: 'uvi:miner_mk1_0_2_1',
+            localPos: {x: 0, y: 2, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_2_2_1',
-            localPos: {x: 2, y: 2, z: 1},
-            roles: {},
-            animations: [
-                {
-                    id: 'mining',
-                    frames: [3, 4, 5, 6, 7, 8]
-                }
-            ]
+            typeId: 'uvi:miner_mk1_2_2_1',
+            localPos: {x: 2, y: 2, z: 1}
         },
         {
-            id: 'uvi:miner_mk1_0_2_2',
-            localPos: {x: 0, y: 2, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_0_2_2',
+            localPos: {x: 0, y: 2, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_1_2_2',
-            localPos: {x: 1, y: 2, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_1_2_2',
+            localPos: {x: 1, y: 2, z: 2}
         },
         {
-            id: 'uvi:miner_mk1_2_2_2',
-            localPos: {x: 2, y: 2, z: 2},
-            roles: {},
-            animations: []
+            typeId: 'uvi:miner_mk1_2_2_2',
+            localPos: {x: 2, y: 2, z: 2}
         }
     ]
 };

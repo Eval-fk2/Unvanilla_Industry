@@ -2,11 +2,34 @@ import * as Utils from './utils';
 
 // First Category ==========================
 export class Unit {
-    constructor(pos, dimension, direction) {
-        this.uuid = Utils.genUuid();
-        this.pos = this.pos;
-        this.dimension = dimension;
-        this.direction = direction;
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        this.pos           = pos;
+        this.direction     = direction;
+        this.dimension     = dimension;
+        this.unitData      = unitData;
+        this.unitStructure = unitStructure;
+        this.unitRecipe    = unitRecipe;
+    };
+
+    setStructure() {
+        for (const block of this.unitStructure.blocks) {
+            const pos = Utils.rotatePos(
+                block.localPos,
+                this.unitStructure.centerOffset,
+                this.pos,
+                this.direction
+            );
+            this.dimension.setBlockPermutation(
+                pos,
+                BlockPermutation.resolve(block.typeId, {
+                    'minecraft:cardinal_direction': this.direction
+                })
+            );
+            const placedBlock = this.dimension.getBlock(pos);
+            placedBlock?.setPermutation(
+                placedBlock.permutation.withState('uvi:unit_id', this.uuid)
+            );
+        };
     };
 };
 // =========================================
@@ -14,8 +37,17 @@ export class Unit {
 
 // Second Category - Unit ==================
 export class Machine extends Unit {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
+        this.inputSlots     = Utils.initSlots(this, 'inputSlot');
+        this.outputSlots    = Utils.initSlots(this, 'outputSlot');
+        this.electrodeSlots = Utils.initSlots(this, 'electrodeSlot');
+    };
+
+    searchConnect() {
+        for (const slot of this.inputSlots)     slot.searchConnect();
+        for (const slot of this.outputSlots)    slot.searchConnect();
+        for (const slot of this.electrodeSlots) slot.searchConnect();
     };
 };
 // =========================================
@@ -23,20 +55,20 @@ export class Machine extends Unit {
 
 // Third Category - Machine ================
 export class Extraction extends Machine {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 
 export class Generator extends Machine {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 
 export class Production extends Machine {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 // =========================================
@@ -44,8 +76,8 @@ export class Production extends Machine {
 
 // Second Category - Unit ==================
 export class Transport extends Unit {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 // =========================================
@@ -53,14 +85,14 @@ export class Transport extends Unit {
 
 // Third Category - Transport ==============
 export class Conveyor extends Transport {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 
 export class Pipe extends Transport {
-    constructor(pos, dimension, direction) {
-        super(pos, dimension, direction);
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
 };
 // =========================================

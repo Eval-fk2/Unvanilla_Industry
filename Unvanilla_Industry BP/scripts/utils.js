@@ -59,24 +59,13 @@ export function posKey(pos) {
 /**
  * unitのdataからスロットを初期化してslotMapに登録する
  */
-export function initSlots(unit) {
+export function initSlots(unit, slotType) {
     const slots = [];
-    for (const def of unit.constructor.unitData.slots) {
-        const worldPos = rotatePos(
-            def.localPos,
-            unit.constructor.unitStructure.centerOffset,
-            unit.pos,
-            unit.direction
-        );
-        const face = rotateFace(def.face, unit.direction);
-
+    for (const {slotIndex, slotData} of unit.unitData[slotType].entries()) {
         let slot;
-        if (def.slotType === 'ElectrodeSlot') {
-            slot = new Slot.ElectrodeSlot(unit.uuid, worldPos, face, def.electrodeType);
-        } else {
-            slot = new Slot.IOSlot(unit.uuid, worldPos, face, def.ioType, def.contentType, def.slotIndex);
-        };
-
+        if (slotType === 'inputSlot') slot = new Slot.InputSlot(unit, slotIndex);
+        else if (slotType === 'outputSlot') slot = new Slot.OutputSlot(unit, slotIndex);
+        else if (slotType === 'electrodeSlot') slot = new Slot.ElectrodeSlot(unit, slotIndex);
         slots.push(slot);
     };
     return slots;

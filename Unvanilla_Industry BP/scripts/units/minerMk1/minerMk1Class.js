@@ -3,131 +3,25 @@ import { minerMk1Data } from './minerMk1Data';
 import { minerMk1Structure } from './minerMk1Structure';
 import { minerMk1Recipe } from './minerMk1Recipe';
 import { minerMk1Form } from './minerMk1Form';
-import * as Main from '../../../../main';
-import * as Utils from '../../../../utils';
-import * as PN from '../../../../powerNetwork';
+import * as Main from '../../main';
+import * as Utils from '../../utils';
+import * as PN from '../../powerNetworkClass';
+import * as UC from '../../unitClass';
 
-export class MinerMk1Node {
+export class MinerMk1Node extends UC.Extraction {
 
-    static unitData      = minerMk1Data;
-    static unitStructure = minerMk1Structure;
-    static unitRecipe    = minerMk1Recipe;
+    constructor(pos, direction, dimension) {
+        super(pos, direction, dimension, minerMk1Data, minerMk1Structure, minerMk1Recipe);
+        this.uuid           = `${this.typeId}_${pos.x}_${pos.y}_${pos.z}`;
+        this.status         = 'IDLE';
+        this.powerNetwork   = null;
+        this.currentRecipe  = null;
 
-    constructor(pos, direction, dimension, isRestoring = false) {
-        this.typeId          = MinerMk1Node.unitData.id;
-        this.uuid            = `${this.typeId}_${pos.x}_${pos.y}_${pos.z}`;
-        this.pos             = pos;
-        this.direction       = direction;
-        this.dimension       = dimension;
-        this.slots           = Utils.initSlots(this);
-        this.isSlotChanged   = false;
-        this.status          = 'IDLE';
-        this.powerNetworkId  = null;
-        this.currentRecipeId = null;
-        this.cycleStartTick  = null;
-        this.cycleEndTick    = null;
-        this.detectedBlockId = null;
-
-        if (!isRestoring) {
-            this.setStructure();
-            this.searchConnect();
-            this.joinPowerNetwork();
-        };
+        this.setStructure();
+        this.searchConnect();
+        this.joinPowerNetwork();
 
         Main.unitUuidMap.set(this.uuid, this);
-    };
-
-    // ----------------------------------------------------------
-    // ブロック設置
-    // ----------------------------------------------------------
-
-    setStructure() {
-        for (const block of MinerMk1Node.unitStructure.blocks) {
-            const worldPos = Utils.rotatePos(
-                block.localPos,
-                MinerMk1Node.unitStructure.centerOffset,
-                this.pos,
-                this.direction
-            );
-            this.dimension.setBlockPermutation(
-                worldPos,
-                BlockPermutation.resolve(block.id, {
-                    'minecraft:cardinal_direction': this.direction
-                })
-            );
-            const placedBlock = this.dimension.getBlock(worldPos);
-            placedBlock?.setPermutation(
-                placedBlock.permutation.withState('uvi:unit_id', this.uuid)
-            );
-        }
-    }
-
-    // ----------------------------------------------------------
-    // 接続先探索
-    // ----------------------------------------------------------
-
-    searchConnect() {
-        for (const slot of this.slots) {
-            const detectPos = {
-                x: slot.worldPos.x + (slot.face === 'east'  ? 1 : slot.face === 'west'  ? -1 : 0),
-                y: slot.worldPos.y,
-                z: slot.worldPos.z + (slot.face === 'south' ? 1 : slot.face === 'north' ? -1 : 0)
-            };
-
-            const targetSlot = Main.slotPosMap.get(Utils.posKey(detectPos));
-            if (!targetSlot) continue;
-
-            // electrodeは向きだけ確認
-            if (slot.slotType === 'ElectrodeSlot') {
-                if (
-                    targetSlot.slotType !== 'ElectrodeSlot' ||
-                    targetSlot.face     !== Utils.oppositeFace(slot.face)
-                ) continue;
-                slot.connectId       = targetSlot.uuid;
-                targetSlot.connectId = slot.uuid;
-            }
-
-            // IOSlotは向きとcontentTypeを確認
-            else if (slot.slottype === 'IOSlot') {
-                if (
-                    targetSlot.face        !== Utils.oppositeFace(slot.face) ||
-                    targetSlot.contentType !== slot.contentType ||
-                    targetSlot.ioType      === slot.ioType
-                ) continue;
-                slot.connectId       = targetSlot.uuid;
-                targetSlot.connectId = slot.uuid;
-            };
-        };
-    };
-
-    // ----------------------------------------------------------
-    // 電力ネットワーク
-    // ----------------------------------------------------------
-
-    joinPowerNetwork() {
-        const electrode = this.slots.find(s => s.slotType === 'ElectrodeSlot');
-        if (!electrode?.connectId) {
-            const powerNetwork = new PN.PowerNetwork();
-            powerNetwork.addUnit(this);
-            return;
-        };
-
-        const connectSlot = Main.slotUuidMap.get(electrode.connectId);
-        const connectUnit = Main.unitUuidMap.get(connectSlot?.parentId);
-        if (connectUnit?.powerNetworkId) {
-            const powerNetwork = Main.powerNetworkMap.get(connectUnit.powerNetworkId);
-            powerNetwork.addUnit(this);
-        }
-        else {
-            const powerNetwork = new PN.PowerNetwork();
-            powerNetwork.addUnit(this);
-            powerNetwork.addUnit(connectUnit);
-        };
-    };
-
-    getCurrentPowerConsumption() {
-        if (!this.currentRecipeId) return 0;
-        return MinerMk1Node.unitRecipe[this.currentRecipeId]?.powerPerMinute ?? 0;
     };
 
     // ----------------------------------------------------------
@@ -136,8 +30,8 @@ export class MinerMk1Node {
 
     updateBlockSensor() {
         const sensorWorldPos = Utils.rotatePos(
-            MinerMk1Node.unitData.blockSensor,
-            MinerMk1Node.unitStructure.centerOffset,
+            this.unitData.blockSensor,
+            this.unitStructure.centerOffset,
             this.pos,
             this.direction
         );

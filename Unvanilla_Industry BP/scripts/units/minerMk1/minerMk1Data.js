@@ -3,9 +3,17 @@ export const minerMk1Data = {
     category: 'MACHINE',
     subCategory: 'EXTRACTION',
     displayName: '採掘機Mk1',
-    blockSensor: [
-        {x: 1, y: 0, z: 1}
-    ],
+    blockSensor: {
+        miningLv1: [
+            {x: 1, y: 0, z: 1}
+        ],
+        miningLv2: [
+            {x: 1, y: 1, z: 1}
+        ],
+        miningLv3: [
+            {x: 1, y: 2, z: 1}
+        ]
+    },
     animations: {
         mining: [
             {localPos: {x: 0, y: 1, z: 1}, frames: [0, 1, 2, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]},
@@ -22,8 +30,7 @@ export const minerMk1Data = {
             contentType: 'item',
             localPos: {x: 1, y: 0, z: 0},
             face: 'north',
-            maxAmount: 'contentMaxAmount',
-            slotIndex: 0
+            maxAmount: 'contentMaxAmount'
         }
     ],
     electrodeSlots: [
@@ -31,8 +38,7 @@ export const minerMk1Data = {
             slotType: 'electrodeSlot',
             electrodeType: 'consume',
             localPos: {x: 1, y: 0, z: 2},
-            face: 'south',
-            slotIndex: 0
+            face: 'south'
         }
     ]
 };
