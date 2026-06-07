@@ -1,6 +1,5 @@
 import * as Slot from './slotClass';
 
-
 export function genUuid() {};
 /**
  * レシピ内容をUI上で表示するためのテキストを生成する
@@ -69,4 +68,14 @@ export function initSlots(unit, slotType) {
         slots.push(slot);
     };
     return slots;
+};
+
+
+
+export function changeDirection(viewDirection) {
+    let direction = 'north';
+    if (-45 <= viewDirection.y || viewDirection.y <= 45)   direction = 'north';
+    if (45 <= viewDirection.y && viewDirection.y <= 135)   direction = 'east';
+    if (135 <= viewDirection.y || viewDirection.y <= -135) direction = 'south';
+    if (-135 <= viewDirection.y && viewDirection.y <= -45) direction = 'west';
 };

@@ -1,3 +1,5 @@
+import { world } from '@minecraft/server';
+
 import * as Main from './main';
 import * as Utils from './utils'
 
@@ -26,7 +28,7 @@ export class Slot {
 export class IOSlot extends Slot {
     constructor(parent, slotType, slotIndex) {
         super(parent, slotType, slotIndex);
-        this.content  = null;
+        this.content   = null;
         this.maxAmount = null;
     };
 
@@ -61,6 +63,29 @@ export class InputSlot extends IOSlot {
             targetSlot.connectSlot = this;
             this.connectSlot = targetSlot;
         };
+    };
+
+    serialize() {
+        return {
+            classType:   'InputSlot',
+            uuid:        this.uuid,
+            pos:         JSON.parse(JSON.stringify(this.pos)),
+            face:        this.face,
+            dimensionId: this.dimension.id,
+            slotType:    this.slotType,
+            slotIndex:   this.slotIndex,
+            parentId:    this.parent.uuid,
+            connectId:   this.connectSlot.uuid,
+            content:     JSON.parse(JSON.stringify(this.content))
+        };
+    };
+
+    static fromJSON(data) {
+        const parent     = Main.unitUuidMap.get(data.parentId);
+        const unit       = new InputSlot(parent, data.slotIndex);
+        unit.connectSlot = Main.slotUuidMap.get(data.connectId);
+        unit.content     = data.content;
+        return unit;
     };
 };
 
@@ -108,6 +133,28 @@ export class OutputSlot extends IOSlot {
         this.content.amount             -= amount;
         if (this.content.amount <= 0) this.content = null;
     };
+
+    serialize() {
+        return {
+            classType:   'OutputSlot',
+            uuid:        this.uuid,
+            pos:         JSON.parse(JSON.stringify(this.pos)),
+            face:        this.face,
+            dimensionId: this.dimension.id,
+            slotType:    this.slotType,
+            slotIndex:   this.slotIndex,
+            parentId:    this.parent.uuid,
+            connectId:   this.connectSlot.uuid,
+            content:     JSON.parse(JSON.stringify(this.content))
+        };
+    };
+
+    static fromJSON(data) {
+        const parent = Main.unitUuidMap.get(data.parentId);
+        const unit   = new OutputSlot(parent, data.slotIndex);
+        unit.content = data.content;
+        return unit;
+    };
 };
 
 export class ElectrodeSlot extends Slot {
@@ -135,5 +182,27 @@ export class ElectrodeSlot extends Slot {
             targetSlot.connectSlot = this;
             this.connectSlot = targetSlot;
         };
+    };
+
+    serialize() {
+        return {
+            classType:      'ElectrodeSlot',
+            uuid:           this.uuid,
+            pos:            JSON.parse(JSON.stringify(this.pos)),
+            face:           this.face,
+            dimensionId:    this.dimension.id,
+            slotType:       this.slotType,
+            slotIndex:      this.slotIndex,
+            parentId:       this.parent.uuid,
+            connectId:      this.connectSlot.uuid,
+            electrodeType:  this.electrodeType,
+            powerNetworkId: this.powerNetwork.uuid
+        };
+    };
+
+    static fromJSON(data) {
+        const parent = Main.unitUuidMap.get(data.parentId);
+        const unit   = new ElectrodeSlot(parent, data.slotIndex, data.electrodeType);
+        return unit;
     };
 };

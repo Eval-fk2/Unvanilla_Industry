@@ -25,8 +25,6 @@ export const minerMk1Data = {
     inputSlots: [],
     outputSlots: [
         {
-            slotType: 'IOSlot',
-            ioType: 'output',
             contentType: 'item',
             localPos: {x: 1, y: 0, z: 0},
             face: 'north',
@@ -35,7 +33,6 @@ export const minerMk1Data = {
     ],
     electrodeSlots: [
         {
-            slotType: 'electrodeSlot',
             electrodeType: 'consume',
             localPos: {x: 1, y: 0, z: 2},
             face: 'south'
