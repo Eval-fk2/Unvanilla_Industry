@@ -23,11 +23,25 @@ export class Slot {
     };
 };
 
-export class InputSlot extends Slot {
+export class IOSlot extends Slot {
+    constructor(parent, slotType, slotIndex) {
+        super(parent, slotType, slotIndex);
+        this.content  = null;
+        this.maxAmount = null;
+    };
+
+    setMaxAmount(content) {
+        if (this.slotData.maxAmount === 'contentMaxAmount') {
+            if (!content) return;
+            this.maxAmount = content.maxAmount;
+        }
+        else this.maxAmount = this.slotData.maxAmount;
+    };
+};
+
+export class InputSlot extends IOSlot {
     constructor(parent, slotIndex) {
         super(parent, 'inputSlot', slotIndex);
-        this.content   = null;
-        this.maxAmount = null;
     };
 
     searchConnect() {
@@ -48,28 +62,11 @@ export class InputSlot extends Slot {
             this.connectSlot = targetSlot;
         };
     };
-
-    setMaxAmount() {
-        if (this.slotData.maxAmount === 'contentMaxAmount') {
-            if (!this.content) return;
-            this.maxAmount = this.content.maxAmount;
-        }
-        else this.maxAmount = this.slotData.maxAmount;
-    };
-
-    inputItem() {
-        if (!this.connectSlot) return;
-        if (this.connectSlot.content.typeId != this.content.typeId || this.content.amount >= this.maxAmount) return;
-        this.content.amount             += 1;
-        this.connectSlot.content.amount -= 1;
-        if (this.connectSlot.content.amount <= 0) this.connectSlot.content = null;
-    };
 };
 
-export class OutputSlot extends Slot {
+export class OutputSlot extends IOSlot {
     constructor(parentId, slotIndex) {
         super(parentId, 'outputSlot', slotIndex);
-        this.content   = null;
     };
 
     searchConnect() {
@@ -91,19 +88,24 @@ export class OutputSlot extends Slot {
         };
     };
 
-    setMaxAmount() {
-        if (this.slotData.maxAmount === 'contentMaxAmount') {
-            if (!this.content) return;
-            this.maxAmount = this.content.maxAmount;
+    outputItem(amount) {
+        if (!this.connectSlot || !this.content) return;
+        if (this.content.amount < amount) return;
+        if (!this.connectSlot.content) {
+            this.connectSlot.setMaxAmount(this.content);
+            if (amount > this.connectSlot.maxAmount) return;
+                this.connectSlot.content = {
+                    typeId: this.content.typeId,
+                    amount: this.content.amount,
+                    maxAmount: this.content.amount
+                };
         }
-        else this.maxAmount = this.slotData.maxAmount;
-    };
-
-    outputItem() {
-        if (!this.connectSlot) return;
-        if (this.connectSlot.content.typeId != this.content.typeId || this.connectSlot.amount >= this.maxAmount) return;
-        this.connectSlot.content.amount += 1;
-        this.content.amount             -= 1;
+        else if (
+            this.content.typeId != this.connectSlot.content.typeId ||
+            this.connectSlot.content.amount + amount > this.connectSlot.maxAmount
+        ) return;
+        this.connectSlot.content.amount += amount;
+        this.content.amount             -= amount;
         if (this.content.amount <= 0) this.content = null;
     };
 };

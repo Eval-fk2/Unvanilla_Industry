@@ -58,6 +58,23 @@ export class Extraction extends Machine {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
     };
+
+    updateBlockSensor() {
+        for (const input of this.recipe.inputs) {
+            if (input.type !== 'blockSensor') continue;
+            const result = this.unitData.blockSensor[input.sensorId].every(localPos => {
+                const pos = Utils.rotatePos(
+                    localPos,
+                    this.unitStructure.centerOffset,
+                    this.pos,
+                    this.direction
+                );
+                const block = this.dimension.getBlock(pos);
+                return block?.typeId === input.id;
+            });
+            this.blockSensor[sensorId] = result;
+        };
+    };
 };
 
 export class Generator extends Machine {
