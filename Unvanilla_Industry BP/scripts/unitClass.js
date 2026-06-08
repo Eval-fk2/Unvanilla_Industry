@@ -98,8 +98,8 @@ export class Machine extends Unit {
         for (const slot of this.electrodeSlots) slot.searchConnect();
     };
 
-    setRecipe(recipeId) {
-        this.recipe      = this.unitRecipe[recipeId];
+    setRecipe(recipe) {
+        this.recipe      = recipe;
         this.currentTick = 0;
         this.canCraft    = false;
         this.checkInputs();

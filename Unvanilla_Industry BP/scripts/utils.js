@@ -4,9 +4,11 @@ export function genUuid() {};
 /**
  * レシピ内容をUI上で表示するためのテキストを生成する
  */
-export function makeRecipeText(recipeList, recipeId) {
-    const recipe = recipeList[recipeId];
-    const inputsText  = recipe.inputs.map(s  => `${s.type} ${s.id} ${s.amount}`).join('\n');
+export function makeRecipeText(recipeList, recipe) {
+    const inputsText  = recipe.inputs.map(s  => {
+        if (s.type != 'blockSensor') return `${s.type} ${s.id} ${s.amount}`;
+        else return `${s.type} ${s.id}`;
+    }).join('\n');
     const outputsText = recipe.outputs.map(s => `${s.type} ${s.id} ${s.amount}`).join('\n');
     return `${recipeId}\n\n${inputsText}\n\n->\n\n${outputsText}\n\n${recipe.powerPerMinute}w/m ${recipe.durationTick}Tick`;
 };

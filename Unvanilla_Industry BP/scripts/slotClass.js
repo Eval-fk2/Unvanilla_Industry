@@ -23,6 +23,42 @@ export class Slot {
         Main.slotPosMap.set(this.pos, this);
         Main.slotUuidMap.set(this.uuid, this);
     };
+
+    searchConnect() {
+        if (this.connectSlot) return;
+        const detectPos = {
+            x: this.pos.x + (this.face === 'east'  ? 1 : this.face === 'west'  ? -1 : 0),
+            y: this.pos.y,
+            z: this.pos.z + (this.face === 'south' ? 1 : this.face === 'north' ? -1 : 0)
+        };
+        const targetSlot = Main.slotPosMap.get(Utils.posKey(detectPos));
+        if (!targetSlot) return;
+        let targetSlotType;
+        if (this.slotType === 'inputSlots')     targetSlotType = 'outputSlot';
+        if (this.slotType === 'outputSlots')    targetSlotType = 'inputSlot';
+        if (this.slotType === 'electrodeSlots') targetSlotType = 'electrodeSlot';
+        if (
+            targetSlot.parent.dimension.id === this.parent.dimension.id &&
+            targetSlot.slotType === targetSlotType &&
+            targetSlot.face === Utils.oppositeFace(this.face)
+        ) {
+            targetSlot.connectSlot = this;
+            this.connectSlot = targetSlot;
+        };
+    };
+
+    serialize() {
+        return {
+            uuid:        this.uuid,
+            pos:         JSON.parse(JSON.stringify(this.pos)),
+            face:        this.face,
+            dimensionId: this.dimension.id,
+            slotType:    this.slotType,
+            slotIndex:   this.slotIndex,
+            parentId:    this.parent.uuid,
+            connectId:   this.connectSlot.uuid
+        };
+    };
 };
 
 export class IOSlot extends Slot {
@@ -39,6 +75,22 @@ export class IOSlot extends Slot {
         }
         else this.maxAmount = this.slotData.maxAmount;
     };
+
+    serialize() {
+        const serializeData = super.serialize();
+        serializeData['content']   = JSON.parse(JSON.stringify(this.content));
+        serializeData['maxAmount'] = this.maxAmount;
+    };
+
+    deleteItemAll() {
+        this.content = null;
+    };
+
+    giveItemAll(player) {
+        if (!this.content || this.content.type != 'item') return;
+        world.getDimension(player.dimension.id).runCommand(`give ${player.name} ${this.content.typeId} ${this.content.amount}`);
+        this.deleteItemAll();
+    };
 };
 
 export class InputSlot extends IOSlot {
@@ -46,45 +98,17 @@ export class InputSlot extends IOSlot {
         super(parent, 'inputSlot', slotIndex);
     };
 
-    searchConnect() {
-        if (this.connectSlot) return;
-        const detectPos = {
-            x: this.pos.x + (this.face === 'east'  ? 1 : this.face === 'west'  ? -1 : 0),
-            y: this.pos.y,
-            z: this.pos.z + (this.face === 'south' ? 1 : this.face === 'north' ? -1 : 0)
-        };
-        const targetSlot = Main.slotPosMap.get(Utils.posKey(detectPos));
-        if (!targetSlot) return;
-        if (
-            targetSlot.parent.dimension.id === this.parent.dimension.id &&
-            targetSlot.slotType === 'outputSlot' &&
-            targetSlot.face === Utils.oppositeFace(this.face)
-        ) {
-            targetSlot.connectSlot = this;
-            this.connectSlot = targetSlot;
-        };
-    };
-
     serialize() {
-        return {
-            classType:   'InputSlot',
-            uuid:        this.uuid,
-            pos:         JSON.parse(JSON.stringify(this.pos)),
-            face:        this.face,
-            dimensionId: this.dimension.id,
-            slotType:    this.slotType,
-            slotIndex:   this.slotIndex,
-            parentId:    this.parent.uuid,
-            connectId:   this.connectSlot.uuid,
-            content:     JSON.parse(JSON.stringify(this.content))
-        };
+        const serializeData = super.serialize();
+        serializeData['classType'] = 'InputSlot';
+        return serializeData;
     };
 
     static fromJSON(data) {
-        const parent     = Main.unitUuidMap.get(data.parentId);
-        const unit       = new InputSlot(parent, data.slotIndex);
-        unit.connectSlot = Main.slotUuidMap.get(data.connectId);
-        unit.content     = data.content;
+        const parent   = Main.unitUuidMap.get(data.parentId);
+        const unit     = new InputSlot(parent, data.slotIndex);
+        unit.content   = data.content;
+        unit.maxAmount = data.maxAmount;
         return unit;
     };
 };
@@ -92,25 +116,6 @@ export class InputSlot extends IOSlot {
 export class OutputSlot extends IOSlot {
     constructor(parentId, slotIndex) {
         super(parentId, 'outputSlot', slotIndex);
-    };
-
-    searchConnect() {
-        if (this.connectSlot) return;
-        const detectPos = {
-            x: this.pos.x + (this.face === 'east'  ? 1 : this.face === 'west'  ? -1 : 0),
-            y: this.pos.y,
-            z: this.pos.z + (this.face === 'south' ? 1 : this.face === 'north' ? -1 : 0)
-        };
-        const targetSlot = Main.slotPosMap.get(Utils.posKey(detectPos));
-        if (!targetSlot) return;
-        if (
-            targetSlot.parent.dimension.id === this.parent.dimension.id &&
-            targetSlot.slotType === 'inputSlot' &&
-            targetSlot.face === Utils.oppositeFace(this.face)
-        ) {
-            targetSlot.connectSlot = this;
-            this.connectSlot = targetSlot;
-        };
     };
 
     outputItem(amount) {
@@ -135,24 +140,16 @@ export class OutputSlot extends IOSlot {
     };
 
     serialize() {
-        return {
-            classType:   'OutputSlot',
-            uuid:        this.uuid,
-            pos:         JSON.parse(JSON.stringify(this.pos)),
-            face:        this.face,
-            dimensionId: this.dimension.id,
-            slotType:    this.slotType,
-            slotIndex:   this.slotIndex,
-            parentId:    this.parent.uuid,
-            connectId:   this.connectSlot.uuid,
-            content:     JSON.parse(JSON.stringify(this.content))
-        };
+        const serializeData = super.serialize();
+        serializeData['classType'] = 'OutputSlot';
+        return serializeData;
     };
 
     static fromJSON(data) {
-        const parent = Main.unitUuidMap.get(data.parentId);
-        const unit   = new OutputSlot(parent, data.slotIndex);
-        unit.content = data.content;
+        const parent   = Main.unitUuidMap.get(data.parentId);
+        const unit     = new OutputSlot(parent, data.slotIndex);
+        unit.content   = data.content;
+        unit.maxAmount = data.maxAmount;
         return unit;
     };
 };
@@ -165,39 +162,11 @@ export class ElectrodeSlot extends Slot {
         this.powerNetwork = null;
     };
 
-    searchConnect() {
-        if (this.connectSlot) return;
-        const detectPos = {
-            x: this.pos.x + (this.face === 'east'  ? 1 : this.face === 'west'  ? -1 : 0),
-            y: this.pos.y,
-            z: this.pos.z + (this.face === 'south' ? 1 : this.face === 'north' ? -1 : 0)
-        };
-        const targetSlot = Main.slotPosMap.get(Utils.posKey(detectPos));
-        if (!targetSlot) return;
-        if (
-            targetSlot.parent.dimension.id === this.parent.dimension.id &&
-            targetSlot.slotType === 'electrodeSlot' &&
-            targetSlot.face === Utils.oppositeFace(this.face)
-        ) {
-            targetSlot.connectSlot = this;
-            this.connectSlot = targetSlot;
-        };
-    };
-
     serialize() {
-        return {
-            classType:      'ElectrodeSlot',
-            uuid:           this.uuid,
-            pos:            JSON.parse(JSON.stringify(this.pos)),
-            face:           this.face,
-            dimensionId:    this.dimension.id,
-            slotType:       this.slotType,
-            slotIndex:      this.slotIndex,
-            parentId:       this.parent.uuid,
-            connectId:      this.connectSlot.uuid,
-            electrodeType:  this.electrodeType,
-            powerNetworkId: this.powerNetwork.uuid
-        };
+        const serializeData = super.serialize();
+        serializeData['classType'] = 'ElectrodeSlot';
+        serializeData['electrodeType'] = this.electrodeType;
+        return serializeData;
     };
 
     static fromJSON(data) {
