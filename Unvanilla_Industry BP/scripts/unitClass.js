@@ -78,17 +78,16 @@ export class Unit {
 export class Machine extends Unit {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure);
-        this.unitRecipe    = unitRecipe;
+        this.unitRecipe     = unitRecipe;
         this.inputSlots     = Utils.initSlots(this, 'inputSlot');
         this.outputSlots    = Utils.initSlots(this, 'outputSlot');
         this.electrodeSlots = Utils.initSlots(this, 'electrodeSlot');
         this.status         = 'OFF';
         this.recipe         = null;
+        this.currentTick    = 0;
         this.processPer     = 0;
         this.canProcess     = false;
         this.canCraft       = false;
-        this.inputChanged   = false;
-        this.outputChanged  = false;
         this.canOutput      = true;
     };
 
@@ -240,6 +239,108 @@ export class Transport extends Unit {
         this.unitRecipe  = unitRecipe;
         this.inputSlots  = Utils.initSlots(this, 'inputSlot');
         this.outputSlots = Utils.initSlots(this, 'outputSlot');
+        this.recipe = null;
+        this.currentTick = 0;
+        this.canProcess = false;
+        this.canCraft = false;
+    };
+
+    searchConnect() {
+        for (const slot of this.inputSlots)  slot.searchConnect();
+        for (const slot of this.outputSlots) slot.searchConnect();
+    };
+
+    setRecipe(recipe) {
+        this.recipe      = recipe;
+        this.currentTick = 0;
+        this.canCraft    = false;
+        this.checkInputs();
+    };
+
+    checkInputs() {
+        const inputMap = new Map();
+        for (const slot of this.inputSlots) {
+            if (!slot.content) continue;
+            inputMap.set(slot.content.typeId, (inputMap.get(slot.content.typeId) ?? 0) + slot.content.amount);
+        };
+
+        for (const input of this.recipe.inputs) {
+            if (input.type === 'blockSensor') {
+                if (!this.blockSensor[input.sensorId]) return false;
+            }
+            else {
+                if ((inputMap.get(input.id) ?? 0) < input.amount) return false;
+            };
+        };
+        this.canProcess = true;
+        return true;
+    };
+
+    checkOutputs() {
+        for (const output of this.recipe.outputs) {
+            const slot = this.outputSlots[output.slotIndex];
+            if (!slot.content) return false;
+            if (!(
+                slot.slotData.contentType           === output.type &&
+                slot.content.typeId                 === output.id &&
+                slot.content.amount + output.amount <= slot.maxAmount
+            )) return false;
+        };
+        this.canCraft = true;
+        return true;
+    };
+
+    processRecipe() {
+        for (const input of this.recipe.inputs) {
+            let remaining = input.amount;
+            const qualifiedSlots = this.inputSlots.filter(s =>
+                s.slotData.contentType === input.type &&
+                s.content &&
+                s.content.typeId === input.id
+            );
+            for (const slot of qualifiedSlots) {
+                if (remaining <= 0) break;
+                const consume = Math.min(slot.content.amount, remaining);
+                slot.content.amount -= consume;
+                remaining -= consume;
+                if (slot.content.amount <= 0) slot.content = null;
+            };
+        };
+
+        for (const output of this.recipe.outputs) {
+            const slot = this.outputSlots[output.slotIndex]
+            if (!slot) continue;
+            if (slot.content) {
+                slot.content.amount += output.amount;
+            }
+            else {
+                if (output.type === 'item') {
+                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: new ItemStack(output.id).maxAmount};
+                }
+                else if (output.type === 'fluid') {
+                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: Item.itemData[output.id].maxAmount};
+                };
+            };
+        };
+
+        for (const slot of this.inputSlots)  if (slot.connectSlot.parent.canOutput) slot.connectSlot.outputItem(1);
+        for (const slot of this.outputSlots) if (this.canOutput)                    slot.outputItem(1);
+    };
+
+    tick() {
+        if (!this.recipe || !this.canProcess) {
+            this.status = 'IDLE';
+            return;
+        };
+        this.status = 'PROCESS';
+        if (this.currentTick < this.recipe.durationTick) {
+            this.currentTick++;
+            this.processPer = Number((this.currentTick * 100 / this.recipe.durationTick).toFixed(2));
+        };
+        if (this.currentTick >= this.recipe.durationTick && this.canCraft) {
+            this.currentTick = 0;
+            this.processRecipe();
+        };
     };
 };
 // =========================================
