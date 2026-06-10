@@ -22,6 +22,12 @@ export const minerMk1Data = {
             {localPos: {x: 2, y: 2, z: 1}, frames: [3, 4, 5, 6, 7, 8]}
         ]
     },
+    storages: [
+        {
+            contentType: 'item',
+            storageSlotCount: 1
+        }
+    ],
     inputSlots: [],
     outputSlots: [
         {
