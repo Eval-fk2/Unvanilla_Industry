@@ -28,8 +28,8 @@ export const minerMk1Data = {
             storageSlotCount: 1
         }
     ],
-    inputSlots: [],
-    outputSlots: [
+    inputPort: [],
+    outputPort: [
         {
             contentType: 'item',
             localPos: {x: 1, y: 0, z: 0},
@@ -37,7 +37,7 @@ export const minerMk1Data = {
             maxAmount: 'contentMaxAmount'
         }
     ],
-    electrodeSlots: [
+    electrodePort: [
         {
             electrodeType: 'consume',
             localPos: {x: 1, y: 0, z: 2},

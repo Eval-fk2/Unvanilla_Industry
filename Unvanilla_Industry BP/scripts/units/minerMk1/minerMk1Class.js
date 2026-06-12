@@ -1,11 +1,7 @@
-import { world, BlockPermutation, ItemStack } from '@minecraft/server';
+import { world } from '@minecraft/server';
 
 import * as Main from '../../main';
-import * as Utils from '../../utils';
-import * as Slot from '../../slotClass';
-import * as PN from '../../powerNetworkClass';
 import * as UC from '../../unitClass';
-import * as Item from '../../itemData';
 
 import { minerMk1Data } from './minerMk1Data';
 import { minerMk1Structure } from './minerMk1Structure';
@@ -29,9 +25,9 @@ export class MinerMk1 extends UC.Extraction {
             pos:            this.pos,
             direction:      this.direction,
             dimension:      this.dimension,
-            inputSlots:     data.inputSlots.map(s => s.serialize()),
-            outputSlots:    this.outputSlots.map(s => s.serialize()),
-            electrodeSlots: this.electrodeSlots.map(s => s.serialize()),
+            inputPorts:     this.inputPorts.map(p => p.serialize()),
+            outputPorts:    this.outputPorts.map(p => p.serialize()),
+            electrodePorts: this.electrodePorts.map(p => p.serialize()),
             status:         this.status,
             recipeId:       this.recipe.id,
             currentTick:    this.currentTick,
@@ -45,9 +41,8 @@ export class MinerMk1 extends UC.Extraction {
     static fromJSON(data) {
         const dimension     = world.getDimension(data.dimension);
         const unit          = new MinerMk1(data.pos, data.direction, dimension);
-        unit.inputSlots     .map((s, i) => s.content = data.inputSlots[i].content);
-        unit.outputSlots    .map((s, i) => s.content = data.outputSlots[i].content);
-        unit.electrodeSlots .map((s, i) => s.content = data.electrodeSlots[i].content);
+        unit.inputPorts     .map((p, i) => p.content = data.inputPorts[i].content);
+        unit.outputPorts    .map((p, i) => p.content = data.outputPorts[i].content);
         unit.recipe         = minerMk1Recipe[data.recipeId];
         unit.currentTick    = data.currentTick;
         unit.canProcess     = data.canProcess;

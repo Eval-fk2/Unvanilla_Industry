@@ -9,8 +9,8 @@ import { MinerMk1 } from './units/minerMk1/minerMk1Class';
 export const unlockedRecipes = {};
 export const unitUuidMap = new Map();
 export const unitPosMap = new Map();
-export const slotUuidMap = new Map();
-export const slotPosMap = new Map();
+export const portUuidMap = new Map();
+export const portPosMap = new Map();
 export const powerNetworkMap = new Map();
 
 const unitTag = 'uvi:unit'

@@ -1,8 +1,7 @@
-import { world } from '@minecraft/server';
+import { world, ItemStack } from '@minecraft/server';
 
 import * as Main from './main';
 import * as Utils from './utils';
-import * as Slot from './slotClass';
 import * as PN from './powerNetworkClass';
 import * as Item from './itemData';
 
@@ -52,19 +51,19 @@ export class Unit {
             this.dimension.setBlock(pos, 'minecraft:air');
         };
 
-        for (const slot of this.inputSlots) {
-            Main.slotUuidMap.delete(slot.uuid);
-            Main.slotPosMap.delete(Utils.posKey(slot.pos));
+        for (const port of this.inputPorts) {
+            Main.portUuidMap.delete(port.uuid);
+            Main.portPosMap.delete(Utils.portPosKey(port.pos, port.face));
         };
 
-        for (const slot of this.outputSlots) {
-            Main.slotUuidMap.delete(slot.uuid);
-            Main.slotPosMap.delete(Utils.posKey(slot.pos));
+        for (const port of this.outputPorts) {
+            Main.portUuidMap.delete(port.uuid);
+            Main.portPosMap.delete(Utils.portPosKey(port.pos, port.face));
         };
 
-        for (const slot of this.electrodeSlots) {
-            Main.slotUuidMap.delete(slot.uuid);
-            Main.slotPosMap.delete(Utils.posKey(slot.pos));
+        for (const port of this.electrodePorts) {
+            Main.portUuidMap.delete(port.uuid);
+            Main.portPosMap.delete(Utils.portPosKey(port.pos, port.face));
         };
 
         Main.unitUuidMap.delete(this.uuid);
@@ -79,9 +78,9 @@ export class Machine extends Unit {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure);
         this.unitRecipe     = unitRecipe;
-        this.inputSlots     = Utils.initSlots(this, 'inputSlot');
-        this.outputSlots    = Utils.initSlots(this, 'outputSlot');
-        this.electrodeSlots = Utils.initSlots(this, 'electrodeSlot');
+        this.inputPorts     = Utils.initPorts(this, 'inputPort');
+        this.outputPorts    = Utils.initPorts(this, 'outputPort');
+        this.electrodePorts = Utils.initPorts(this, 'electrodePort');
         this.status         = 'OFF';
         this.recipe         = null;
         this.currentTick    = 0;
@@ -92,9 +91,9 @@ export class Machine extends Unit {
     };
 
     searchConnect() {
-        for (const slot of this.inputSlots)     slot.searchConnect();
-        for (const slot of this.outputSlots)    slot.searchConnect();
-        for (const slot of this.electrodeSlots) slot.searchConnect();
+        for (const port of this.inputPorts)     port.searchConnect();
+        for (const port of this.outputPorts)    port.searchConnect();
+        for (const port of this.electrodePorts) port.searchConnect();
     };
 
     setRecipe(recipe) {
@@ -106,9 +105,9 @@ export class Machine extends Unit {
 
     checkInputs() {
         const inputMap = new Map();
-        for (const slot of this.inputSlots) {
-            if (!slot.content) continue;
-            inputMap.set(slot.content.typeId, (inputMap.get(slot.content.typeId) ?? 0) + slot.content.amount);
+        for (const port of this.inputPorts) {
+            if (!port.content) continue;
+            inputMap.set(port.content.typeId, (inputMap.get(port.content.typeId) ?? 0) + port.content.amount);
         };
 
         for (const input of this.recipe.inputs) {
@@ -125,12 +124,12 @@ export class Machine extends Unit {
 
     checkOutputs() {
         for (const output of this.recipe.outputs) {
-            const slot = this.outputSlots[output.slotIndex];
-            if (!slot.content) return false;
+            const port = this.outputPorts[output.portIndex];
+            if (!port.content) return false;
             if (!(
-                slot.slotData.contentType           === output.type &&
-                slot.content.typeId                 === output.id &&
-                slot.content.amount + output.amount <= slot.maxAmount
+                port.portData.contentType           === output.type &&
+                port.content.typeId                 === output.id &&
+                port.content.amount + output.amount <= port.maxAmount
             )) return false;
         };
         this.canCraft = true;
@@ -140,38 +139,38 @@ export class Machine extends Unit {
     processRecipe() {
         for (const input of this.recipe.inputs) {
             let remaining = input.amount;
-            const qualifiedSlots = this.inputSlots.filter(s =>
-                s.slotData.contentType === input.type &&
-                s.content &&
-                s.content.typeId === input.id
+            const qualifiedPorts = this.inputPorts.filter(p =>
+                p.portData.contentType === input.type &&
+                p.content &&
+                p.content.typeId === input.id
             );
-            for (const slot of qualifiedSlots) {
+            for (const port of qualifiedPorts) {
                 if (remaining <= 0) break;
-                const consume = Math.min(slot.content.amount, remaining);
-                slot.content.amount -= consume;
+                const consume = Math.min(port.content.amount, remaining);
+                port.content.amount -= consume;
                 remaining -= consume;
-                if (slot.content.amount <= 0) slot.content = null;
+                if (port.content.amount <= 0) port.content = null;
             };
         };
 
         for (const output of this.recipe.outputs) {
-            const slot = this.outputSlots[output.slotIndex]
-            if (!slot) continue;
-            if (slot.content) {
-                slot.content.amount += output.amount;
+            const port = this.outputPorts[output.portIndex];
+            if (!port) continue;
+            if (port.content) {
+                port.content.amount += output.amount;
             }
             else {
                 if (output.type === 'item') {
-                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: new ItemStack(output.id).maxAmount};
+                    port.content = {typeId: output.id, amount: output.amount, maxAmount: new ItemStack(output.id).maxAmount};
                 }
                 else if (output.type === 'fluid') {
-                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: Item.itemData[output.id].maxAmount};
+                    port.content = {typeId: output.id, amount: output.amount, maxAmount: Item.itemData[output.id].maxAmount};
                 };
             };
         };
 
-        for (const slot of this.inputSlots)  if (slot.connectSlot.parent.canOutput) slot.connectSlot.outputItem(1);
-        for (const slot of this.outputSlots) if (this.canOutput)                    slot.outputItem(1);
+        for (const port of this.inputPorts)  if (port.connectPort.parent.canOutput) port.connectPort.outputItem(1);
+        for (const port of this.outputPorts) if (this.canOutput)                    port.outputItem(1);
     };
 
     tick() {
@@ -213,7 +212,7 @@ export class Extraction extends Machine {
                 const block = this.dimension.getBlock(pos);
                 return block?.typeId === input.id;
             });
-            this.blockSensor[sensorId] = result;
+            this.blockSensor[input.sensorId] = result;
         };
     };
 };
@@ -237,17 +236,17 @@ export class Transport extends Unit {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure);
         this.unitRecipe  = unitRecipe;
-        this.inputSlots  = Utils.initSlots(this, 'inputSlot');
-        this.outputSlots = Utils.initSlots(this, 'outputSlot');
-        this.recipe = null;
+        this.inputPorts  = Utils.initPorts(this, 'inputPort');
+        this.outputPorts = Utils.initPorts(this, 'outputPort');
+        this.recipe      = null;
         this.currentTick = 0;
-        this.canProcess = false;
-        this.canCraft = false;
+        this.canProcess  = false;
+        this.canCraft    = false;
     };
 
     searchConnect() {
-        for (const slot of this.inputSlots)  slot.searchConnect();
-        for (const slot of this.outputSlots) slot.searchConnect();
+        for (const port of this.inputPorts)  port.searchConnect();
+        for (const port of this.outputPorts) port.searchConnect();
     };
 
     setRecipe(recipe) {
@@ -259,18 +258,13 @@ export class Transport extends Unit {
 
     checkInputs() {
         const inputMap = new Map();
-        for (const slot of this.inputSlots) {
-            if (!slot.content) continue;
-            inputMap.set(slot.content.typeId, (inputMap.get(slot.content.typeId) ?? 0) + slot.content.amount);
+        for (const port of this.inputPorts) {
+            if (!port.content) continue;
+            inputMap.set(port.content.typeId, (inputMap.get(port.content.typeId) ?? 0) + port.content.amount);
         };
 
         for (const input of this.recipe.inputs) {
-            if (input.type === 'blockSensor') {
-                if (!this.blockSensor[input.sensorId]) return false;
-            }
-            else {
-                if ((inputMap.get(input.id) ?? 0) < input.amount) return false;
-            };
+            if ((inputMap.get(input.id) ?? 0) < input.amount) return false;
         };
         this.canProcess = true;
         return true;
@@ -278,12 +272,12 @@ export class Transport extends Unit {
 
     checkOutputs() {
         for (const output of this.recipe.outputs) {
-            const slot = this.outputSlots[output.slotIndex];
-            if (!slot.content) return false;
+            const port = this.outputPorts[output.portIndex];
+            if (!port.content) return false;
             if (!(
-                slot.slotData.contentType           === output.type &&
-                slot.content.typeId                 === output.id &&
-                slot.content.amount + output.amount <= slot.maxAmount
+                port.portData.contentType           === output.type &&
+                port.content.typeId                 === output.id &&
+                port.content.amount + output.amount <= port.maxAmount
             )) return false;
         };
         this.canCraft = true;
@@ -293,38 +287,38 @@ export class Transport extends Unit {
     processRecipe() {
         for (const input of this.recipe.inputs) {
             let remaining = input.amount;
-            const qualifiedSlots = this.inputSlots.filter(s =>
-                s.slotData.contentType === input.type &&
-                s.content &&
-                s.content.typeId === input.id
+            const qualifiedPorts = this.inputPorts.filter(p =>
+                p.portData.contentType === input.type &&
+                p.content &&
+                p.content.typeId === input.id
             );
-            for (const slot of qualifiedSlots) {
+            for (const port of qualifiedPorts) {
                 if (remaining <= 0) break;
-                const consume = Math.min(slot.content.amount, remaining);
-                slot.content.amount -= consume;
+                const consume = Math.min(port.content.amount, remaining);
+                port.content.amount -= consume;
                 remaining -= consume;
-                if (slot.content.amount <= 0) slot.content = null;
+                if (port.content.amount <= 0) port.content = null;
             };
         };
 
         for (const output of this.recipe.outputs) {
-            const slot = this.outputSlots[output.slotIndex]
-            if (!slot) continue;
-            if (slot.content) {
-                slot.content.amount += output.amount;
+            const port = this.outputPorts[output.portIndex];
+            if (!port) continue;
+            if (port.content) {
+                port.content.amount += output.amount;
             }
             else {
                 if (output.type === 'item') {
-                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: new ItemStack(output.id).maxAmount};
+                    port.content = {typeId: output.id, amount: output.amount, maxAmount: new ItemStack(output.id).maxAmount};
                 }
                 else if (output.type === 'fluid') {
-                    slot.content = {typeId: output.id, amount: output.amount, maxAmount: Item.itemData[output.id].maxAmount};
+                    port.content = {typeId: output.id, amount: output.amount, maxAmount: Item.itemData[output.id].maxAmount};
                 };
             };
         };
 
-        for (const slot of this.inputSlots)  if (slot.connectSlot.parent.canOutput) slot.connectSlot.outputItem(1);
-        for (const slot of this.outputSlots) if (this.canOutput)                    slot.outputItem(1);
+        for (const port of this.inputPorts)  if (port.connectPort.parent.canOutput) port.connectPort.outputItem(1);
+        for (const port of this.outputPorts) if (this.canOutput)                    port.outputItem(1);
     };
 
     tick() {

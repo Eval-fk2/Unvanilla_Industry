@@ -2,7 +2,7 @@ export const conveyorMk1Data = {
     typeId: 'conveyorMk1',
     category: 'TRANSPORT',
     subCategory: 'CONVEYOR',
-    inputlots: [
+    inputPort: [
         {
             contentType: 'item',
             localPos: {x: 0, y: 0, z: 0},
@@ -10,7 +10,7 @@ export const conveyorMk1Data = {
             maxAmount: 1
         }
     ],
-    outputSlots: [
+    outputPort: [
         {
             contentType: 'item',
             localPos: {x: 0, y: 0, z: 0},

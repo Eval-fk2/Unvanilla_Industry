@@ -6,7 +6,7 @@ export const minerMk1Recipe = {
             { type: 'blockSensor', sensorId: 'miningLv1', id: 'minecraft:iron_ore' }
         ],
         outputs: [
-            { type: 'item', id: 'minecraft:iron_ore', amount: 1, slotIndex: 0}
+            { type: 'item', id: 'minecraft:iron_ore', amount: 1, portIndex: 0}
         ],
         powerPerMinute: 30,
         durationTick: 20,
@@ -19,7 +19,7 @@ export const minerMk1Recipe = {
             { type: 'blockSensor', sensorId: 'miningLv1', id: 'minecraft:coal_ore' }
         ],
         outputs: [
-            { type: 'item', id: 'minecraft:coal_ore', amount: 1, slotIndex: 0}
+            { type: 'item', id: 'minecraft:coal_ore', amount: 1, portIndex: 0}
         ],
         powerPerMinute: 30,
         durationTick: 20,

@@ -36,6 +36,6 @@ export class PowerNetwork {
     };
 
     remove() {
-        this = undefined;
+        Main.powerNetworkMap.delete(this.uuid);
     };
 };

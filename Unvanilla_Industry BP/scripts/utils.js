@@ -1,4 +1,4 @@
-import * as Slot from './slotClass';
+import * as Port from './portClass';
 
 export function genUuid() {};
 /**
@@ -57,19 +57,23 @@ export function posKey(pos) {
     return `${pos.x},${pos.y},${pos.z}`;
 };
 
+export function portPosKey(pos, face) {
+    return `${pos.x},${pos.y},${pos.z}:${face}`;
+};
+
 /**
- * unitのdataからスロットを初期化してslotMapに登録する
+ * unitのdataからポートを初期化してportMapに登録する
  */
-export function initSlots(unit, slotType) {
-    const slots = [];
-    for (const {slotIndex, slotData} of unit.unitData[slotType].entries()) {
-        let slot;
-        if (slotType === 'inputSlot') slot = new Slot.InputSlot(unit, slotIndex);
-        else if (slotType === 'outputSlot') slot = new Slot.OutputSlot(unit, slotIndex);
-        else if (slotType === 'electrodeSlot') slot = new Slot.ElectrodeSlot(unit, slotIndex);
-        slots.push(slot);
+export function initPorts(unit, portType) {
+    const ports = [];
+    for (const [portIndex] of unit.unitData[portType].entries()) {
+        let port;
+        if (portType === 'inputPort')      port = new Port.InputPort(unit, portIndex);
+        else if (portType === 'outputPort')    port = new Port.OutputPort(unit, portIndex);
+        else if (portType === 'electrodePort') port = new Port.ElectrodePort(unit, portIndex);
+        ports.push(port);
     };
-    return slots;
+    return ports;
 };
 
 

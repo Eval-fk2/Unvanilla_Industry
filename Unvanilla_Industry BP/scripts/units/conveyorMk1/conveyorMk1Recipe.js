@@ -5,7 +5,7 @@ export const conveyorMk1Recipe = {
             { type: 'item', id: 'inputItem', amount: 1}
         ],
         outputs: [
-            { type: 'item', id: 'outputItem', amount: 1, slotIndex: 0}
+            { type: 'item', id: 'outputItem', amount: 1, portIndex: 0}
         ],
         powerPerMinute: 0,
         durationTick: 20,
