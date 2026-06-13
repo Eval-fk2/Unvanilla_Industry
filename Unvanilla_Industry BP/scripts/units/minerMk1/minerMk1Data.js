@@ -1,6 +1,6 @@
 export const minerMk1Data = {
-    typeId: 'minerMk1',
-    category: 'MACHINE',
+    typeId:      'minerMk1',
+    category:    'MACHINE',
     subCategory: 'EXTRACTION',
     displayName: '採掘機Mk1',
     blockSensor: {
@@ -25,23 +25,24 @@ export const minerMk1Data = {
     storages: [
         {
             contentType: 'item',
-            storageSlotCount: 1
+            maxAmount:   'contentMaxAmount',
+            slotCount:   1
         }
     ],
-    inputPort: [],
-    outputPort: [
+    inputPorts: [],
+    outputPorts: [
         {
-            contentType: 'item',
-            localPos: {x: 1, y: 0, z: 0},
-            face: 'north',
-            maxAmount: 'contentMaxAmount'
+            localPos:     {x: 1, y: 0, z: 0},
+            face:         'north',
+            contentType:  'item',
+            storageIndex: 0
         }
     ],
-    electrodePort: [
+    electrodePorts: [
         {
             electrodeType: 'consume',
-            localPos: {x: 1, y: 0, z: 2},
-            face: 'south'
+            localPos:      {x: 1, y: 0, z: 2},
+            face:          'south'
         }
     ]
 };

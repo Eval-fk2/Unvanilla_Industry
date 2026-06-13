@@ -2,6 +2,7 @@ import { world } from '@minecraft/server';
 
 import * as Main from './main';
 import * as Utils from './utils'
+import * as ST from './storageClass';
 
 export class Port {
     constructor(parent, portType, portIndex) {
@@ -24,26 +25,18 @@ export class Port {
         Main.portUuidMap.set(this.uuid, this);
     };
 
-    searchConnect() {
-        if (this.connectPort) return;
+    _findAdjacentPort(targetPortType) {
         const detectPos = {
             x: this.pos.x + (this.face === 'east'  ? 1 : this.face === 'west'  ? -1 : 0),
             y: this.pos.y,
             z: this.pos.z + (this.face === 'south' ? 1 : this.face === 'north' ? -1 : 0)
         };
         const targetPort = Main.portPosMap.get(Utils.portPosKey(detectPos, Utils.oppositeFace(this.face)));
-        if (!targetPort) return;
-        let targetPortType;
-        if (this.portType === 'inputPort')     targetPortType = 'outputPort';
-        if (this.portType === 'outputPort')    targetPortType = 'inputPort';
-        if (this.portType === 'electrodePort') targetPortType = 'electrodePort';
-        if (
-            targetPort.parent.dimension.id === this.parent.dimension.id &&
-            targetPort.portType === targetPortType
-        ) {
-            targetPort.connectPort = this;
-            this.connectPort = targetPort;
-        };
+        if (!targetPort) return null;
+        if (targetPort.parent.dimension.id !== this.parent.dimension.id) return null;
+        if (targetPort.portData.contentType !== this.portData.contentType) return null;
+        if (targetPort.portType !== targetPortType) return null;
+        return targetPort;
     };
 
     serialize() {
@@ -55,7 +48,7 @@ export class Port {
             portType:    this.portType,
             portIndex:   this.portIndex,
             parentId:    this.parent.uuid,
-            connectId:   this.connectPort.uuid
+            connectId:   this.connectPort?.uuid ?? null
         };
     };
 };
@@ -63,38 +56,32 @@ export class Port {
 export class IOPort extends Port {
     constructor(parent, portType, portIndex) {
         super(parent, portType, portIndex);
-        this.content   = null;
-        this.maxAmount = null;
+        this.storage = new ST.Storage(this.parent, this.portData.storageIndex);
     };
 
-    setMaxAmount(content) {
-        if (this.portData.maxAmount === 'contentMaxAmount') {
-            if (!content) return;
-            this.maxAmount = content.maxAmount;
-        }
-        else this.maxAmount = this.portData.maxAmount;
+    searchConnect() {
+        if (this.connectPort) return;
+        const targetPortType = this.portType === 'inputPorts' ? 'outputPorts' : 'inputPorts';
+        const targetPort = this._findAdjacentPort(targetPortType);
+        if (!targetPort) return;
+        const bothMachine =
+            this.parent.unitData.category       === 'MACHINE' &&
+            targetPort.parent.unitData.category === 'MACHINE';
+        if (bothMachine) return;
+        targetPort.connectPort = this;
+        this.connectPort       = targetPort;
     };
 
     serialize() {
         const serializeData = super.serialize();
-        serializeData['content']   = JSON.parse(JSON.stringify(this.content));
-        serializeData['maxAmount'] = this.maxAmount;
-    };
-
-    deleteItemAll() {
-        this.content = null;
-    };
-
-    giveItemAll(player) {
-        if (!this.content || this.content.type != 'item') return;
-        world.getDimension(player.dimension.id).runCommand(`give ${player.name} ${this.content.typeId} ${this.content.amount}`);
-        this.deleteItemAll();
+        serializeData['slots'] = JSON.parse(JSON.stringify(this.storage.slots));
+        return serializeData;
     };
 };
 
 export class InputPort extends IOPort {
     constructor(parent, portIndex) {
-        super(parent, 'inputPort', portIndex);
+        super(parent, 'inputPorts', portIndex);
     };
 
     serialize() {
@@ -104,38 +91,28 @@ export class InputPort extends IOPort {
     };
 
     static fromJSON(data) {
-        const parent   = Main.unitUuidMap.get(data.parentId);
-        const port     = new InputPort(parent, data.portIndex);
-        port.content   = data.content;
-        port.maxAmount = data.maxAmount;
+        const parent       = Main.unitUuidMap.get(data.parentId);
+        const port         = new InputPort(parent, data.portIndex);
+        port.storage.slots = data.slots;
         return port;
     };
 };
 
 export class OutputPort extends IOPort {
     constructor(parent, portIndex) {
-        super(parent, 'outputPort', portIndex);
+        super(parent, 'outputPorts', portIndex);
     };
 
     outputItem(amount) {
-        if (!this.connectPort || !this.content) return;
-        if (this.content.amount < amount) return;
-        if (!this.connectPort.content) {
-            this.connectPort.setMaxAmount(this.content);
-            if (amount > this.connectPort.maxAmount) return;
-                this.connectPort.content = {
-                    typeId: this.content.typeId,
-                    amount: 0,
-                    maxAmount: this.connectPort.maxAmount
-                };
-        }
-        else if (
-            this.content.typeId != this.connectPort.content.typeId ||
-            this.connectPort.content.amount + amount > this.connectPort.maxAmount
-        ) return;
-        this.connectPort.content.amount += amount;
-        this.content.amount             -= amount;
-        if (this.content.amount <= 0) this.content = null;
+        if (!this.connectPort) return;
+        for (const slot of this.storage.slots) {
+            if (!slot.id) continue;
+            const addAmount = this.connectPort?.storage.add(slot.id, amount);
+            if (addAmount > 0) {
+                this.storage.remove(slot.id, amount);
+                return;
+            };
+        };
     };
 
     serialize() {
@@ -145,20 +122,31 @@ export class OutputPort extends IOPort {
     };
 
     static fromJSON(data) {
-        const parent   = Main.unitUuidMap.get(data.parentId);
-        const port     = new OutputPort(parent, data.portIndex);
-        port.content   = data.content;
-        port.maxAmount = data.maxAmount;
+        const parent       = Main.unitUuidMap.get(data.parentId);
+        const port         = new OutputPort(parent, data.portIndex);
+        port.storage.slots = data.slots;
         return port;
     };
 };
 
 export class ElectrodePort extends Port {
     constructor(parent, portIndex) {
-        super(parent, 'electrodePort', portIndex);
+        super(parent, 'electrodePorts', portIndex);
         this.electrodeType  = this.portData.electrodeType;
         this.powerPerMinute = null;
         this.powerNetwork   = null;
+    };
+
+    searchConnect() {
+        if (this.connectPort) return;
+        const targetPort = this._findAdjacentPort('electrodePorts');
+        if (!targetPort) return;
+        const hasCable =
+            this.parent.unitData.category       === 'MACHINE' ||
+            targetPort.parent.unitData.category === 'MACHINE';
+        if (!hasCable) return;
+        targetPort.connectPort = this;
+        this.connectPort       = targetPort;
     };
 
     serialize() {

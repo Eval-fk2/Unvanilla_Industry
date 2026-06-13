@@ -68,9 +68,9 @@ export function initPorts(unit, portType) {
     const ports = [];
     for (const [portIndex] of unit.unitData[portType].entries()) {
         let port;
-        if (portType === 'inputPort')      port = new Port.InputPort(unit, portIndex);
-        else if (portType === 'outputPort')    port = new Port.OutputPort(unit, portIndex);
-        else if (portType === 'electrodePort') port = new Port.ElectrodePort(unit, portIndex);
+        if (portType === 'inputPorts')          port = new Port.InputPort(unit, portIndex);
+        else if (portType === 'outputPorts')    port = new Port.OutputPort(unit, portIndex);
+        else if (portType === 'electrodePorts') port = new Port.ElectrodePort(unit, portIndex);
         ports.push(port);
     };
     return ports;

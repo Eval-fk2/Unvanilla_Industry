@@ -1,21 +1,26 @@
 export const conveyorMk1Data = {
-    typeId: 'conveyorMk1',
-    category: 'TRANSPORT',
+    typeId:      'conveyorMk1',
+    category:    'TRANSPORT',
     subCategory: 'CONVEYOR',
-    inputPort: [
+    storages: [
         {
             contentType: 'item',
-            localPos: {x: 0, y: 0, z: 0},
-            face: 'south',
-            maxAmount: 1
+            maxAmount:   1,
+            slotCount:   1
         }
     ],
-    outputPort: [
+    inputPorts: [
         {
-            contentType: 'item',
-            localPos: {x: 0, y: 0, z: 0},
-            face: 'south',
-            maxAmount: 1
+            localPos:     {x: 0, y: 0, z: 0},
+            face:         'south',
+            storageIndex: 0
+        }
+    ],
+    outputPorts: [
+        {
+            localPos:     {x: 0, y: 0, z: 0},
+            face:         'south',
+            storageIndex: 0
         }
     ]
 };
