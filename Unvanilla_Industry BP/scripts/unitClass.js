@@ -69,6 +69,7 @@ export class ProcessingUnit extends Unit {
         this.currentTick = 0;
         this.processPer  = 0;
         this.canProcess  = false;
+        this.isPowered   = true;
     };
 
     searchConnect() {
@@ -138,8 +139,12 @@ export class ProcessingUnit extends Unit {
         for (const port of this.outputPorts) port.outputItem();
     };
 
+    onPowerStateChanged(isPowered) {
+        this.isPowered = isPowered;
+    };
+
     tick() {
-        if (!this.recipe || !this.canProcess) {
+        if (!this.recipe || !this.canProcess || !this.isPowered) {
             this.status = 'IDLE';
             return;
         };
@@ -167,6 +172,7 @@ export class Machine extends ProcessingUnit {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
         this.electrodePorts = Utils.initPorts(this, 'electrodePorts');
+        this.isPowered      = false;
     };
 
     searchConnect() {
@@ -180,6 +186,16 @@ export class Machine extends ProcessingUnit {
             Main.portPosMap.delete(Utils.portPosKey(port.pos, port.face));
         };
         super.onDestroy();
+    };
+
+    tick() {
+        const prevStatus = this.status;
+        super.tick();
+        if (prevStatus !== this.status) {
+            for (const port of this.electrodePorts) {
+                port.powerNetwork?.recalculate();
+            };
+        };
     };
 };
 
@@ -243,3 +259,16 @@ export class Pipe extends Transport {
     };
 };
 // =========================================
+
+
+export class Connector extends Unit {
+    constructor(pos, direction, dimension, unitData, unitStructure) {
+        super(pos, direction, dimension, unitData, unitStructure);
+    };
+};
+
+export class Cable extends Connector {
+    constructor(pos, direction, dimension, unitData, unitStructure) {
+        super(pos, direction, dimension, unitData, unitStructure);
+    };
+};

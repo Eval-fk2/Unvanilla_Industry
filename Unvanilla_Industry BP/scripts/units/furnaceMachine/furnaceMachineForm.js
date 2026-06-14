@@ -1,13 +1,13 @@
+import { world } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 
-import * as Main from '../../main';
 import * as Utils from '../../utils';
 
 export function furnaceMachineForm(player, unit) {
     const recipeText = Utils.makeRecipeText(unit.unitRecipe, unit.recipe);
 
     const form = new ActionFormData();
-    form.title(unit.unitData.typeId);
+    form.title(unit.unitData.displayName);
     form.body(recipeText);
     form.divider();
 
@@ -15,26 +15,35 @@ export function furnaceMachineForm(player, unit) {
     form.button('レシピを選択する');
 
     for (const port of unit.inputPorts) {
-        form.button(`input ${port.portIndex} ${port.content?.typeId} ${port.content?.amount}`);
+        for (const slot of port.storage.slots) {
+            form.button(`input ${port.portIndex}  ${slot.id ?? 'empty'}  ${slot.id ? slot.amount : ''}`);
+        };
     };
 
     for (const port of unit.outputPorts) {
-        form.button(`output ${port.portIndex} ${port.content?.typeId} ${port.content?.amount}`);
+        for (const slot of port.storage.slots) {
+            form.button(`output ${port.portIndex}  ${slot.id ?? 'empty'}  ${slot.id ? slot.amount : ''}`);
+        };
     };
 
+    const inputStart  = 2;
+    const outputStart = 2 + unit.inputPorts.length;
+
     form.show(player).then(res => {
-        if (res.canceled) return;
-        if (res.selection === 0) return;
-        if (res.selection === 1) furnaceMachineSelectRecipe(player, unit);
-        if (2 <= res.selection && res.selection <= unit.inputPorts.length+2) {
-            const port = unit.inputPorts[res.selection-2];
-            if (port.content.type === 'item') port.giveItemAll(player);
-            else if (port.content.type === 'fluid') port.deleteItemAll();
+        if (res.canceled || res.selection === 0) return;
+
+        if (res.selection === 1) {
+            furnaceMachineSelectRecipe(player, unit);
+            return;
         };
-        if (unit.inputPorts.length+3 <= res.selection && res.selection <= unit.inputPorts.length+3+unit.outputPorts.length) {
-            const port = unit.outputPorts[res.selection-unit.inputPorts.length+2];
-            if (port.content.type === 'item') port.giveItemAll(player);
-            else if (port.content.type === 'fluid') port.deleteItemAll();
+
+        if (inputStart <= res.selection && res.selection < outputStart) {
+            const port = unit.inputPorts[res.selection - inputStart];
+            return;
+        };
+
+        if (outputStart <= res.selection && res.selection < outputStart + unit.outputPorts.length) {
+            const port = unit.outputPorts[res.selection - outputStart];
         };
     });
 };
@@ -42,18 +51,16 @@ export function furnaceMachineForm(player, unit) {
 function furnaceMachineSelectRecipe(player, unit) {
     const form = new ActionFormData();
     const recipeIds = Object.keys(unit.unitRecipe);
+
     form.button('戻る');
     for (const recipeId of recipeIds) {
-        //if (!Main.unlockedRecipes[recipeId]) continue;
-        if (recipeId !== unit.recipe.id) form.button(recipeId);
+        if (recipeId !== unit.recipe?.id) form.button(recipeId);
         else form.button(`§a${recipeId}`);
     };
+
     form.show(player).then(res => {
-        if (res.canceled) return;
-        if (res.selection === 0) return;
-        if (res.selection >= 1) {
-            unit.setRecipe(unit.unitRecipe[recipeIds[res.selection-1]]);
-            player.sendMessage(`レシピを変更しました: ${recipeIds[res.selection-1]}`);
-        };
+        if (res.canceled || res.selection === 0) return;
+        unit.setRecipe(unit.unitRecipe[recipeIds[res.selection - 1]]);
+        player.sendMessage(`レシピを変更しました: ${recipeIds[res.selection - 1]}`);
     });
 };

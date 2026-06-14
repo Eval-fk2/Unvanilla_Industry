@@ -1,8 +1,9 @@
 import { world } from '@minecraft/server';
 
 import * as Main from './main';
-import * as Utils from './utils'
+import * as Utils from './utils';
 import * as ST from './storageClass';
+import * as PN from './powerNetworkClass';
 
 export class Port {
     constructor(parent, portType, portIndex) {
@@ -132,9 +133,6 @@ export class OutputPort extends IOPort {
 export class ElectrodePort extends Port {
     constructor(parent, portIndex) {
         super(parent, 'electrodePorts', portIndex);
-        this.electrodeType  = this.portData.electrodeType;
-        this.powerPerMinute = null;
-        this.powerNetwork   = null;
     };
 
     searchConnect() {
@@ -147,6 +145,18 @@ export class ElectrodePort extends Port {
         if (!hasCable) return;
         targetPort.connectPort = this;
         this.connectPort       = targetPort;
+
+        const myNetwork    = this.powerNetwork;
+        const theirNetwork = targetPort.powerNetwork;
+
+        if      (myNetwork && theirNetwork && myNetwork !== theirNetwork) myNetwork.combine(theirNetwork);
+        else if (myNetwork    && !theirNetwork) myNetwork.addUnit(targetPort.parent);
+        else if (!myNetwork   && theirNetwork)  theirNetwork.addUnit(this.parent);
+        else if (!myNetwork   && !theirNetwork) {
+            const newNetwork = new PN.PowerNetwork();
+            newNetwork.addUnit(this.parent);
+            newNetwork.addUnit(targetPort.parent);
+        };
     };
 
     serialize() {

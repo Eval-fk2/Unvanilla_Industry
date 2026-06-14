@@ -1,7 +1,7 @@
 export const coalGeneratorData = {
     typeId:      'coalGenerator',
     category:    'MACHINE',
-    subCategory: 'PRODUCTION',
+    subCategory: 'GENERATOR',
     displayName: '石炭発電機',
     animations: {
         
@@ -10,7 +10,7 @@ export const coalGeneratorData = {
         {
             contentType: 'item',
             maxAmount:   'contentMaxAmount',
-            slotCount:   1
+            storageSlotCount: 1
         }
     ],
     inputPorts: [

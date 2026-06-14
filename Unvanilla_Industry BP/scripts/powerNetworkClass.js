@@ -4,7 +4,7 @@ import * as Utils from './utils';
 export class PowerNetwork {
     constructor() {
         this.uuid                 = Utils.genUuid();
-        this.memberIds            = [];
+        this.members              = [];
         this.isPowered            = false;
         this.generationPerMinute  = 0;
         this.consumptionPerMinute = 0;
@@ -13,29 +13,75 @@ export class PowerNetwork {
     };
 
     addUnit(unit) {
-        if (this.memberIds.find(uuid => uuid === unit.uuid) != undefined) return;
-        const prevPowerNetwork = Main.powerNetworkMap.get(unit.powerNetworkId);
-        if (prevPowerNetwork) prevPowerNetwork.removeUnit(unit);
-        this.memberIds.push(unit.uuid);
-        unit.PowerNetworkId = this.uuid;
+        if (this.members.includes(unit)) return;
+        for (const port of unit.electrodePorts ?? []) {
+            if (port.powerNetwork && port.powerNetwork !== this) {
+                port.powerNetwork.removeUnit(unit);
+                break;
+            };
+        };
+        this.members.push(unit);
+        for (const port of unit.electrodePorts ?? []) {
+            port.powerNetwork = this;
+        };
+        this.recalculate();
+        unit.onPowerStateChanged?.(this.isPowered);
     };
 
     removeUnit(unit) {
-        if (this.memberIds.find(uuid => uuid === unit.uuid) == undefined) return;
-        this.memberIds = this.memberIds.filter(uuid => uuid !== unit.uuid);
-        unit.powerNetworkId = null;
+        if (!this.members.includes(unit)) return;
+        this.members = this.members.filter(u => u !== unit);
+        for (const port of unit.electrodePorts ?? []) {
+            if (port.powerNetwork === this) port.powerNetwork = null;
+        };
+        this.recalculate();
     };
 
-    combine(combineNetwork) {
-        for (const unitUuid of combineNetwork.memberIds) {
-            const unit = Main.unitUuidMap.get(unitUuid);
-            unit.powerNetworkId = this.uuid;
-            this.memberIds.push(unitUuid);
+    combine(otherNetwork) {
+        for (const unit of otherNetwork.members) {
+            this.members.push(unit);
+            for (const port of unit.electrodePorts ?? []) {
+                port.powerNetwork = this;
+            };
         };
-        combineNetwork.remove();
+        otherNetwork.remove();
+        this.recalculate();
+        for (const unit of this.members) {
+            unit.onPowerStateChanged?.(this.isPowered);
+        };
+    };
+
+    recalculate() {
+        let gen = 0;
+        let con = 0;
+
+        for (const unit of this.members) {
+            if (!unit.recipe || unit.status !== 'PROCESS') continue;
+            gen += unit.recipe.generatePower ?? 0;
+            con += unit.recipe.consumePower  ?? 0;
+        };
+
+        this.generationPerMinute  = gen;
+        this.consumptionPerMinute = con;
+
+        const wasPowered = this.isPowered;
+        this.isPowered   = gen >= con;
+
+        if (wasPowered !== this.isPowered) this._applyPowerState();
+    };
+
+    _applyPowerState() {
+        for (const unit of this.members) {
+            unit.onPowerStateChanged?.(this.isPowered);
+        };
     };
 
     remove() {
+        for (const unit of this.members) {
+            for (const port of unit.electrodePorts ?? []) {
+                if (port.powerNetwork === this) port.powerNetwork = null;
+            };
+        };
         Main.powerNetworkMap.delete(this.uuid);
     };
 };
