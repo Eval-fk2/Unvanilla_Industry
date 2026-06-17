@@ -133,6 +133,8 @@ export class OutputPort extends IOPort {
 export class ElectrodePort extends Port {
     constructor(parent, portIndex) {
         super(parent, 'electrodePorts', portIndex);
+        this.electrodeType = this.portData.electrodeType;
+        this.powerNetwork  = null;
     };
 
     searchConnect() {

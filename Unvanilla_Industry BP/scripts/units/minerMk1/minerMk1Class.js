@@ -32,8 +32,6 @@ export class MinerMk1 extends UC.Extraction {
             recipeId:       this.recipe.id,
             currentTick:    this.currentTick,
             canProcess:     this.canProcess,
-            canCraft:       this.canCraft,
-            canOutput:      this.canOutput,
             blockSensor:    JSON.parse(JSON.stringify(this.blockSensor))
         };
     };
@@ -41,8 +39,8 @@ export class MinerMk1 extends UC.Extraction {
     static fromJSON(data) {
         const dimension     = world.getDimension(data.dimension);
         const unit          = new MinerMk1(data.pos, data.direction, dimension);
-        unit.inputPorts     .map((p, i) => p.content = data.inputPorts[i].content);
-        unit.outputPorts    .map((p, i) => p.content = data.outputPorts[i].content);
+        unit.inputPorts     .forEach((p, i) => p.storage.slots = data.inputPorts[i].slots);
+        unit.outputPorts    .forEach((p, i) => p.storage.slots = data.outputPorts[i].slots);
         unit.recipe         = minerMk1Recipe[data.recipeId];
         unit.currentTick    = data.currentTick;
         unit.canProcess     = data.canProcess;

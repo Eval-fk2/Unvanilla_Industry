@@ -12,7 +12,7 @@ export class Storage {
     };
 
     initSlots() {
-        return Array.from({ length: this.storageData.storageSlotCount }, () => ({
+        return Array.from({ length: this.storageData.slotCount }, () => ({
             id:        null,
             amount:    0,
             maxAmount: null
