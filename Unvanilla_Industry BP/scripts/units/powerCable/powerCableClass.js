@@ -9,7 +9,10 @@ import * as Utils from '../../utils';
 import * as PN from '../../powerNetwork';
 import * as UC from '../../unitClass';
 
-class PowerCable extends UC.Cable {
+export class PowerCable extends UC.Cable {
+    static data      = powerCableData;
+    static structure = powerCableStructure;
+
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, powerCableData, powerCableStructure);
         this.powerNetwork = null;

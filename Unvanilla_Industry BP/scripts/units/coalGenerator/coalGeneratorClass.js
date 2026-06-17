@@ -9,6 +9,8 @@ import { coalGeneratorRecipe } from './coalGeneratorRecipe';
 import { coalGeneratorForm } from './coalGeneratorForm';
 
 export class CoalGenerator extends UC.Generator {
+    static data      = coalGeneratorData;
+    static structure = coalGeneratorStructure;
 
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, coalGeneratorData, coalGeneratorStructure, coalGeneratorRecipe);

@@ -9,6 +9,8 @@ import { minerMk1Recipe } from './minerMk1Recipe';
 import { minerMk1Form } from './minerMk1Form';
 
 export class MinerMk1 extends UC.Extraction {
+    static data      = minerMk1Data;
+    static structure = minerMk1Structure;
 
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, minerMk1Data, minerMk1Structure, minerMk1Recipe);

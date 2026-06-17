@@ -214,6 +214,10 @@ export class Extraction extends Machine {
         this.blockSensor = null;
     };
 
+    onPlace() {
+        this.updateBlockSensor();
+    };
+
     updateBlockSensor() {
         for (const input of this.recipe.inputs) {
             if (input.type !== 'blockSensor') continue;

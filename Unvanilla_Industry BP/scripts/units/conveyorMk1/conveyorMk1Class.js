@@ -10,7 +10,10 @@ import * as Utils from '../../utils';
 import * as PN from '../../powerNetwork';
 import * as UC from '../../unitClass';
 
-class ConveyorMk1 extends UC.Conveyor {
+export class ConveyorMk1 extends UC.Conveyor {
+    static data      = conveyorMk1Data;
+    static structure = conveyorMk1Structure;
+
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, conveyorMk1Data, conveyorMk1Structure, conveyorMk1Recipe);
     }; 

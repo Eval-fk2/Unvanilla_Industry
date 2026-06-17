@@ -9,6 +9,8 @@ import { furnaceMachineRecipe } from './furnaceMachineRecipe';
 import { furnaceMachineForm } from './furnaceMachineForm';
 
 export class FurnaceMachine extends UC.Production {
+    static data      = furnaceMachineData;
+    static structure = furnaceMachineStructure;
 
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, furnaceMachineData, furnaceMachineStructure, furnaceMachineRecipe);
