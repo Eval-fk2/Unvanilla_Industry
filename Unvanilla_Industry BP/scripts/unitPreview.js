@@ -1,24 +1,67 @@
+import { world } from '@minecraft/server';
+
 import * as Utils from './utils';
 
-function checkCanPlace(worldPos, direction, structure, dimension) {
-    for (const block of structure.blocks) {
-        const wp = Utils.rotatePos(block.localPos, structure.centerOffset, worldPos, direction);
-        const b  = dimension.getBlock(wp);
-        if (!b || b.typeId !== 'minecraft:air') return false;
+function checkCanPlace(dimension, pos, direction, unitStructure) {
+    for (const blockData of unitStructure.blocks) {
+        const blockPos    = Utils.rotatePos(blockData.localPos, unitStructure.centerOffset, pos, direction);
+        const placedBlock = dimension.getBlock(blockPos);
+        const entity = dimension.getEntitiesAtBlockLocation(blockPos);
+        if (placedBlock?.typeId !== 'minecraft:air' || entity) return false;
     };
     return true;
 };
 
-function getBBox(structure) {
+function spawnEdges(dimension, worldPos, direction, structure) {
+    const blockSet = new Set(
+        structure.blocks.map(({ localPos: { x, y, z } }) => `${x},${y},${z}`)
+    );
+    const has   = (x, y, z) => blockSet.has(`${x},${y},${z}`);
+    const count = (...ps)   => ps.filter(([x,y,z]) => has(x,y,z)).length;
+
+    const co = structure.centerOffset;
+    const rp = (lp) => Utils.rotatePos(lp, co, worldPos, direction);
+    const xa = worldAxis('x', direction);
+    const za = worldAxis('z', direction);
+
+    const seenX = new Set(), seenY = new Set(), seenZ = new Set();
+
+    for (const { localPos: { x, y, z } } of structure.blocks) {
+        // X方向の辺（YZコーナー）
+        for (const ey of [y, y+1]) for (const ez of [z, z+1]) {
+            if (seenX.has(`${x},${ey},${ez}`)) continue;
+            seenX.add(`${x},${ey},${ez}`);
+            if (count([x,ey-1,ez-1],[x,ey,ez-1],[x,ey-1,ez],[x,ey,ez]) % 2 === 1)
+                dimension.spawnParticle(`uvi:edge_${xa}`, rp({ x, y: ey, z: ez }));
+        }
+        // Y方向の辺（XZコーナー）
+        for (const ex of [x, x+1]) for (const ez of [z, z+1]) {
+            if (seenY.has(`${ex},${y},${ez}`)) continue;
+            seenY.add(`${ex},${y},${ez}`);
+            if (count([ex-1,y,ez-1],[ex,y,ez-1],[ex-1,y,ez],[ex,y,ez]) % 2 === 1)
+                dimension.spawnParticle('uvi:edge_y', rp({ x: ex, y, z: ez }));
+        }
+        // Z方向の辺（XYコーナー）
+        for (const ex of [x, x+1]) for (const ey of [y, y+1]) {
+            if (seenZ.has(`${ex},${ey},${z}`)) continue;
+            seenZ.add(`${ex},${ey},${z}`);
+            if (count([ex-1,ey-1,z],[ex,ey-1,z],[ex-1,ey,z],[ex,ey,z]) % 2 === 1)
+                dimension.spawnParticle(`uvi:edge_${za}`, rp({ x: ex, y: ey, z }));
+        };
+    };
+};
+
+
+function getBBox(unitStructure) {
     let x0 = Infinity,  y0 = Infinity,  z0 = Infinity;
     let x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
-    for (const { localPos: p } of structure.blocks) {
+    for (const { localPos: p } of unitStructure.blocks) {
         if (p.x < x0) x0 = p.x; if (p.x > x1) x1 = p.x;
         if (p.y < y0) y0 = p.y; if (p.y > y1) y1 = p.y;
         if (p.z < z0) z0 = p.z; if (p.z > z1) z1 = p.z;
-    }
+    };
     return { x0, y0, z0, x1, y1, z1 };
-}
+};
 
 // north/southはlocal x→world x, z→z
 // east/westはlocal x→world z, z→x （rotatePos実装に合わせたスワップ）
@@ -41,9 +84,9 @@ function faceOffset(pos, face) {
     }
 }
 
-function spawnEdges(dimension, worldPos, direction, structure) {
-    const { x0, y0, z0, x1, y1, z1 } = getBBox(structure);
-    const co = structure.centerOffset;
+function spawnEdges(dimension, worldPos, direction, unitStructure) {
+    const { x0, y0, z0, x1, y1, z1 } = getBBox(unitStructure);
+    const co = unitStructure.centerOffset;
     const rp = (lp) => Utils.rotatePos(lp, co, worldPos, direction);
     const xa = worldAxis('x', direction);
     const za = worldAxis('z', direction);
