@@ -2,10 +2,10 @@
 	"format_version": "1.10.0",
 	"particle_effect": {
 		"description": {
-			"identifier": "uvi:edge_x",
+			"identifier": "uvi:arrow_south_red",
 			"basic_render_parameters": {
 				"material": "particles_blend",
-				"texture": "textures/particle/white"
+				"texture": "textures/particle/arrow_red"
 			}
 		},
 		"components": {
@@ -19,21 +19,18 @@
 			"minecraft:emitter_lifetime_looping": {
 				"active_time": 1
 			},
-			"minecraft:emitter_shape_point": {
-				"offset": [0.5, 0, 0]
-			},
+			"minecraft:emitter_shape_point": {},
 			"minecraft:particle_lifetime_expression": {
 				"max_lifetime": 0.05
 			},
 			"minecraft:particle_initial_speed": 0,
 			"minecraft:particle_motion_dynamic": {},
+			"minecraft:particle_motion_parametric": {
+				"rotation": -180
+			},
 			"minecraft:particle_appearance_billboard": {
-				"size": ["0.5*17/16", "0.5/16"],
-				"facing_camera_mode": "lookat_direction",
-				"direction": {
-					"mode": "custom",
-					"custom_direction": [-1, 0, 0]
-				},
+				"size": [0.5, 0.5],
+				"facing_camera_mode": "emitter_transform_xz",
 				"uv": {
 					"texture_width": 16,
 					"texture_height": 16,

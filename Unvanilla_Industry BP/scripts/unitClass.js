@@ -314,6 +314,10 @@ export class Connector extends Unit {
     constructor(pos, direction, dimension, unitData, unitStructure) {
         super(pos, direction, dimension, unitData, unitStructure);
     };
+
+    searchConnect() {
+        for (const port of this.electrodePorts) port.searchConnect();
+    };
 };
 
 export class Cable extends Connector {

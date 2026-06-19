@@ -40,7 +40,8 @@
 					"uv": [0, 0],
 					"uv_size": [16, 16]
 				}
-			}
+			},
+			"minecraft:particle_appearance_lighting": {}
 		}
 	}
 }
