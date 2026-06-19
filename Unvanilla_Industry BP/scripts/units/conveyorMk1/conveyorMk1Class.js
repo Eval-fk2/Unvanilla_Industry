@@ -16,5 +16,13 @@ export class ConveyorMk1 extends UC.Conveyor {
 
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, conveyorMk1Data, conveyorMk1Structure, conveyorMk1Recipe);
+<<<<<<< Updated upstream
     }; 
+=======
+    };
+
+    openUI(player) {
+        conveyorMk1Form(player, this);
+    };
+>>>>>>> Stashed changes
 };

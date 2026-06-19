@@ -61,6 +61,7 @@ export class Unit {
 export class ProcessingUnit extends Unit {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure);
+<<<<<<< Updated upstream
         this.unitRecipe  = unitRecipe;
         this.inputPorts  = Utils.initPorts(this, 'inputPorts');
         this.outputPorts = Utils.initPorts(this, 'outputPorts');
@@ -70,6 +71,18 @@ export class ProcessingUnit extends Unit {
         this.processPer  = 0;
         this.canProcess  = false;
         this.isPowered   = true;
+=======
+        this.unitRecipe     = unitRecipe;
+        this.inputSlots     = Utils.initSlots(this, 'inputSlot');
+        this.outputSlots    = Utils.initSlots(this, 'outputSlot');
+        this.electrodeSlots = Utils.initSlots(this, 'electrodeSlot');
+        this.status         = 'OFF';
+        this.recipe         = null;
+        this.processPer     = 0;
+        this.canProcess     = false;
+        this.canCraft       = false;
+        this.canOutput      = true;
+>>>>>>> Stashed changes
     };
 
     searchConnect() {
@@ -106,7 +119,11 @@ export class ProcessingUnit extends Unit {
                 if (total < input.amount) return false;
             };
         };
+<<<<<<< Updated upstream
         return true;
+=======
+        this.canProcess = true;
+>>>>>>> Stashed changes
     };
 
     checkOutputs() {
@@ -114,7 +131,11 @@ export class ProcessingUnit extends Unit {
             const port = this.outputPorts[output.portIndex];
             if (!port.storage.canAdd(output.id, output.amount)) return false;
         };
+<<<<<<< Updated upstream
         return true;
+=======
+        this.canCraft = true;
+>>>>>>> Stashed changes
     };
 
     processRecipe() {
@@ -250,7 +271,31 @@ export class Production extends Machine {
 // =========================================
 
 
+<<<<<<< Updated upstream
 // Fourth Category - Transport =============
+=======
+// Second Category - Unit ==================
+export class Transport extends Unit {
+    constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
+        super(pos, direction, dimension, unitData, unitStructure);
+        this.unitRecipe  = unitRecipe;
+        this.inputSlots  = Utils.initSlots(this, 'inputSlot');
+        this.outputSlots = Utils.initSlots(this, 'outputSlot');
+        this.recipe      = null;
+        this.canProcess  = false;
+        this.canCraft    = false;
+    };
+
+    searchConnect() {
+        for (const slot of this.inputSlots)  slot.searchConnect();
+        for (const slot of this.outputSlots) slot.searchConnect();
+    };
+};
+// =========================================
+
+
+// Third Category - Transport ==============
+>>>>>>> Stashed changes
 export class Conveyor extends Transport {
     constructor(pos, direction, dimension, unitData, unitStructure, unitRecipe) {
         super(pos, direction, dimension, unitData, unitStructure, unitRecipe);
