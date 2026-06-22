@@ -6,8 +6,8 @@ import { powerCableForm } from './powerCableForm';
 
 import * as Main from '../../main';
 import * as Utils from '../../utils';
-import * as PN from '../../powerNetwork';
-import * as UC from '../../unitClass';
+import * as PN from '../../mainClass/powerNetwork';
+import * as UC from '../../mainClass/unitClass';
 
 export class PowerCable extends UC.Cable {
     static data      = powerCableData;

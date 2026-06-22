@@ -1,0 +1,115 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:block": {
+        "description": {
+            "identifier": "uvi:miner_mk1_2_2_1",
+            "menu_category": {
+                "category": "construction"
+            },
+            "states": {
+                "uvi:facing":        ["north","east","south","west"],
+                "uvi:miner_l_frame": [0,4,5,6,7,8,9],
+                "uvi:power":         [false,true]
+            }
+        },
+        "components": {
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "miner_mk1_2_2_1_on",
+                    "render_method": "blend"
+                }
+            },
+            "minecraft:geometry": {
+                "identifier": "geometry.miner_mk1_2_2_1",
+                "bone_visibility": {
+                    "miner_l_f4": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 4",
+                    "miner_l_f5": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 5",
+                    "miner_l_f6": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 6",
+                    "miner_l_f7": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 7",
+                    "miner_l_f8": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 8",
+                    "miner_l_f9": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 9"
+                }
+            },
+            "minecraft:collision_box": {
+                "origin": [
+                    3,
+                    11,
+                    -8
+                ],
+                "size": [
+                    5,
+                    5,
+                    16
+                ]
+            },
+            "minecraft:selection_box": {
+                "origin": [
+                    3,
+                    11,
+                    -8
+                ],
+                "size": [
+                    5,
+                    5,
+                    16
+                ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "q.block_state('uvi:facing') == 'north'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,0,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'east'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,90,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'south'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,180,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'west'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,-90,0]
+                    }
+                }
+            },
+            {
+                "condition": "!q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "miner_mk1_2_2_1_off",
+                            "render_method": "opaque"
+                        }
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "miner_mk1_2_2_1_on",
+                            "render_method": "opaque"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

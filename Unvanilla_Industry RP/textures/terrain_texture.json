@@ -1,0 +1,308 @@
+{
+    "num_mip_levels": 4,
+    "padding": 8,
+    "resource_pack_name": "Copper Industry RP",
+    "texture_name": "atlas.terrain",
+    "texture_data": {
+        "miner_mk1_0_0_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_0"
+        },
+        "miner_mk1_0_0_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_0_mer"
+        },
+        "miner_mk1_0_0_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_0_height"
+        },
+        "miner_mk1_1_0_0_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_0_on"
+        },
+        "miner_mk1_1_0_0_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_0_on_mer"
+        },
+        "miner_mk1_1_0_0_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_0_off"
+        },
+        "miner_mk1_1_0_0_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_0_off_mer"
+        },
+        "miner_mk1_1_0_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_0_height"
+        },
+        "miner_mk1_2_0_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_0"
+        },
+        "miner_mk1_2_0_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_0_mer"
+        },
+        "miner_mk1_2_0_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_0_height"
+        },
+        "miner_mk1_0_0_1": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_1"
+        },
+        "miner_mk1_0_0_1_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_1_mer"
+        },
+        "miner_mk1_0_0_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_1_height"
+        },
+        "miner_mk1_2_0_1": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_1"
+        },
+        "miner_mk1_2_0_1_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_1_mer"
+        },
+        "miner_mk1_2_0_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_1_height"
+        },
+        "miner_mk1_0_0_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_2"
+        },
+        "miner_mk1_0_0_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_2_mer"
+        },
+        "miner_mk1_0_0_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_2_height"
+        },
+        "miner_mk1_1_0_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_2"
+        },
+        "miner_mk1_1_0_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_2_mer"
+        },
+        "miner_mk1_1_0_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_0_2_height"
+        },
+        "miner_mk1_2_0_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_2"
+        },
+        "miner_mk1_2_0_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_2_mer"
+        },
+        "miner_mk1_2_0_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_0_2_height"
+        },
+        "miner_mk1_0_1_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_0"
+        },
+        "miner_mk1_0_1_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_0_mer"
+        },
+        "miner_mk1_0_1_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_0_height"
+        },
+        "miner_mk1_1_1_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_0"
+        },
+        "miner_mk1_1_1_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_0_mer"
+        },
+        "miner_mk1_1_1_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_0_height"
+        },
+        "miner_mk1_2_1_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_0"
+        },
+        "miner_mk1_2_1_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_0_mer"
+        },
+        "miner_mk1_2_1_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_0_height"
+        },
+        "miner_mk1_0_1_1_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_1_on"
+        },
+        "miner_mk1_0_1_1_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_1_on_mer"
+        },
+        "miner_mk1_0_1_1_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_1_off"
+        },
+        "miner_mk1_0_1_1_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_1_off_mer"
+        },
+        "miner_mk1_0_1_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_1_height"
+        },
+        "miner_mk1_2_1_1_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_1_on"
+        },
+        "miner_mk1_2_1_1_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_1_on_mer"
+        },
+        "miner_mk1_2_1_1_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_1_off"
+        },
+        "miner_mk1_2_1_1_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_1_off_mer"
+        },
+        "miner_mk1_2_1_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_1_height"
+        },
+        "miner_mk1_0_1_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_2"
+        },
+        "miner_mk1_0_1_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_2_mer"
+        },
+        "miner_mk1_0_1_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_1_2_height"
+        },
+        "miner_mk1_1_1_2_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_2_on"
+        },
+        "miner_mk1_1_1_2_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_2_on_mer"
+        },
+        "miner_mk1_1_1_2_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_2_off"
+        },
+        "miner_mk1_1_1_2_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_2_off_mer"
+        },
+        "miner_mk1_1_1_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_1_2_height"
+        },
+        "miner_mk1_2_1_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_2"
+        },
+        "miner_mk1_2_1_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_2_mer"
+        },
+        "miner_mk1_2_1_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_1_2_height"
+        },
+        "miner_mk1_0_2_0_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_0_on"
+        },
+        "miner_mk1_0_2_0_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_0_on_mer"
+        },
+        "miner_mk1_0_2_0_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_0_off"
+        },
+        "miner_mk1_0_2_0_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_0_off_mer"
+        },
+        "miner_mk1_0_2_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_0_height"
+        },
+        "miner_mk1_1_2_0": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_0"
+        },
+        "miner_mk1_1_2_0_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_0_mer"
+        },
+        "miner_mk1_1_2_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_0_height"
+        },
+        "miner_mk1_2_2_0_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_0_on"
+        },
+        "miner_mk1_2_2_0_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_0_on_mer"
+        },
+        "miner_mk1_2_2_0_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_0_off"
+        },
+        "miner_mk1_2_2_0_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_0_off_mer"
+        },
+        "miner_mk1_2_2_0_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_0_height"
+        },
+        "miner_mk1_0_2_1_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_1_on"
+        },
+        "miner_mk1_0_2_1_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_1_on_mer"
+        },
+        "miner_mk1_0_2_1_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_1_off"
+        },
+        "miner_mk1_0_2_1_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_1_off_mer"
+        },
+        "miner_mk1_0_2_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_1_height"
+        },
+        "miner_mk1_2_2_1_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_1_on"
+        },
+        "miner_mk1_2_2_1_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_1_on_mer"
+        },
+        "miner_mk1_2_2_1_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_1_off"
+        },
+        "miner_mk1_2_2_1_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_1_off_mer"
+        },
+        "miner_mk1_2_2_1_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_1_height"
+        },
+        "miner_mk1_0_2_2_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_2_on"
+        },
+        "miner_mk1_0_2_2_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_2_on_mer"
+        },
+        "miner_mk1_0_2_2_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_2_off"
+        },
+        "miner_mk1_0_2_2_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_2_off_mer"
+        },
+        "miner_mk1_0_2_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_0_2_2_height"
+        },
+        "miner_mk1_1_2_2": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_2"
+        },
+        "miner_mk1_1_2_2_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_2_mer"
+        },
+        "miner_mk1_1_2_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_1_2_2_height"
+        },
+        "miner_mk1_2_2_2_on": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_2_on"
+        },
+        "miner_mk1_2_2_2_on_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_2_on_mer"
+        },
+        "miner_mk1_2_2_2_off": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_2_off"
+        },
+        "miner_mk1_2_2_2_off_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_2_off_mer"
+        },
+        "miner_mk1_2_2_2_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_2_2_2_height"
+        },
+        "miner_mk1_block": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_block"
+        },
+        "miner_mk1_block_mer": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_block_mer"
+        },
+        "miner_mk1_block_height": {
+            "textures": "textures/blocks/miner_mk1/miner_mk1_block_height"
+        },
+        "conveyor_on": {
+            "textures": "textures/blocks/conveyor/conveyor_on"
+        },
+        "conveyor_on_mer": {
+            "textures": "textures/blocks/conveyor/conveyor_on_mer"
+        },
+        "conveyor_off": {
+            "textures": "textures/blocks/conveyor/conveyor_off"
+        },
+        "conveyor_off_mer": {
+            "textures": "textures/blocks/conveyor/conveyor_off_mer"
+        },
+        "conveyor_height": {
+            "textures": "textures/blocks/conveyor/conveyor_height"
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import * as Port from './portClass';
+import * as Port from './mainClass/portClass';
 
 export function genUuid() {};
 /**
@@ -48,6 +48,16 @@ export function rotatePos(localPos, centerOffset, originPos, direction) {
     };
 
     return { x: originPos.x + rx, y: originPos.y + cy, z: originPos.z + rz };
+};
+
+/**
+ * axisを回転させる
+ */
+export function rotateAxis(localAxis, direction) {
+    if (localAxis === 'y') return 'y';
+    return (direction === 'east' || direction === 'west')
+        ? (localAxis === 'x' ? 'z' : 'x')
+        : localAxis;
 };
 
 /**

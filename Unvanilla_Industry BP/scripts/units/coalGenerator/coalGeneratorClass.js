@@ -1,7 +1,7 @@
 import { world } from '@minecraft/server';
 
 import * as Main from '../../main';
-import * as UC from '../../unitClass';
+import * as UC from '../../mainClass/unitClass';
 
 import { coalGeneratorData } from './coalGeneratorData';
 import { coalGeneratorStructure } from './coalGeneratorStructure';

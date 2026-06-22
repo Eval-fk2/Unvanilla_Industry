@@ -1,0 +1,112 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:block": {
+        "description": {
+            "identifier": "uvi:miner_mk1_2_1_1",
+            "menu_category": {
+                "category": "construction"
+            },
+            "states": {
+                "uvi:facing":        ["north","east","south","west"],
+                "uvi:miner_l_frame": [0,1,2,3,10,11,12,13,14,15,16,17,18,19,20],
+                "uvi:power":         [false,true]
+            }
+        },
+        "components": {
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "miner_mk1_2_1_1_on",
+                    "render_method": "blend"
+                }
+            },
+            "minecraft:geometry": {
+                "identifier": "geometry.miner_mk1_2_1_1",
+                "bone_visibility": {
+                    "miner_l_f1":  "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 1",
+                    "miner_l_f2":  "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 2",
+                    "miner_l_f3":  "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 3",
+                    "miner_l_f10": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 10",
+                    "miner_l_f11": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 11",
+                    "miner_l_f12": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 12",
+                    "miner_l_f13": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 13",
+                    "miner_l_f14": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 14",
+                    "miner_l_f15": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 15",
+                    "miner_l_f16": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 16",
+                    "miner_l_f17": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 17",
+                    "miner_l_f18": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 18",
+                    "miner_l_f19": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 19",
+                    "miner_l_f20": "q.block_state('uvi:miner_l_frame') != 0 && q.block_state('uvi:miner_l_frame') == 20"
+                }
+            },
+            "minecraft:collision_box": false,
+            "minecraft:selection_box": {
+                "origin": [
+                    5,
+                    0,
+                    -8
+                ],
+                "size": [
+                    3,
+                    16,
+                    16
+                ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "q.block_state('uvi:facing') == 'north'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,0,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'east'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,90,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'south'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,180,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'west'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,-90,0]
+                    }
+                }
+            },
+            {
+                "condition": "!q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "miner_mk1_2_1_1_off",
+                            "render_method": "opaque"
+                        }
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "miner_mk1_2_1_1_on",
+                            "render_method": "opaque"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

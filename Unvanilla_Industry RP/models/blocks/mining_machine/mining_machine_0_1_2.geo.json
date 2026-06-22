@@ -1,0 +1,35 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.miner_mk1_0_1_2",
+				"texture_width": 16,
+				"texture_height": 16,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "bone",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [-6, 0, -6],
+							"size": [1, 16, 2],
+							"uv": {
+								"north": {"uv": [4, 0], "uv_size": [1, 16]},
+								"east": {"uv": [0, 0], "uv_size": [2, 16]},
+								"south": {"uv": [5, 0], "uv_size": [1, 16]},
+								"west": {"uv": [2, 0], "uv_size": [2, 16]},
+								"up": {"uv": [6, 0], "uv_size": [1, 2]},
+								"down": {"uv": [6, 4], "uv_size": [1, -2]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

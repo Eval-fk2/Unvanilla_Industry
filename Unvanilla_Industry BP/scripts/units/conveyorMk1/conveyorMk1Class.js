@@ -7,8 +7,8 @@ import { conveyorMk1Form } from './conveyorMk1Form';
 
 import * as Main from '../../main';
 import * as Utils from '../../utils';
-import * as PN from '../../powerNetwork';
-import * as UC from '../../unitClass';
+import * as PN from '../../mainClass/powerNetworkClass';
+import * as UC from '../../mainClass/unitClass';
 
 export class ConveyorMk1 extends UC.Conveyor {
     static data      = conveyorMk1Data;
@@ -16,13 +16,9 @@ export class ConveyorMk1 extends UC.Conveyor {
 
     constructor(pos, direction, dimension) {
         super(pos, direction, dimension, conveyorMk1Data, conveyorMk1Structure, conveyorMk1Recipe);
-<<<<<<< Updated upstream
-    }; 
-=======
     };
 
     openUI(player) {
         conveyorMk1Form(player, this);
     };
->>>>>>> Stashed changes
 };

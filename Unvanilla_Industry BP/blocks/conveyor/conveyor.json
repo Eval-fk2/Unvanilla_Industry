@@ -1,0 +1,135 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:block": {
+        "description": {
+            "identifier": "uvi:conveyor",
+            "menu_category": {
+                "category": "construction"
+            },
+            "states": {
+                "uvi:facing":         ["north","east","south","west"],
+                "uvi:power":          [false,true],
+                "uvi:conveyor_frame": [1,2,3,4],
+                "uvi:box_frame":      [0,1,2,3,4,5,6,7,8,9,10],
+                "uvi:box_frame2":     [0,11,12,13,14,15,16,17,18,19,20]
+            }
+        },
+        "components": {
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "conveyor_on",
+                    "render_method": "blend"
+                }
+            },
+            "minecraft:geometry": {
+                "identifier": "geometry.conveyor",
+                "bone_visibility": {
+                    "conveyor_f1": "q.block_state('uvi:conveyor_frame') == 1",
+                    "conveyor_f2": "q.block_state('uvi:conveyor_frame') == 2",
+                    "conveyor_f3": "q.block_state('uvi:conveyor_frame') == 3",
+                    "conveyor_f4": "q.block_state('uvi:conveyor_frame') == 4",
+                    "box_f1":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 1",
+                    "box_f2":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 2",
+                    "box_f3":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 3",
+                    "box_f4":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 4",
+                    "box_f5":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 5",
+                    "box_f6":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 6",
+                    "box_f7":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 7",
+                    "box_f8":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 8",
+                    "box_f9":      "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 9",
+                    "box_f10":     "q.block_state('uvi:box_frame')      != 0 && q.block_state('uvi:box_frame')  == 10",
+                    "box_f11":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 11",
+                    "box_f12":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 12",
+                    "box_f13":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 13",
+                    "box_f14":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 14",
+                    "box_f15":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 15",
+                    "box_f16":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 16",
+                    "box_f17":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 17",
+                    "box_f18":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 18",
+                    "box_f19":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 19",
+                    "box_f20":     "q.block_state('uvi:box_frame2')     != 0 && q.block_state('uvi:box_frame2') == 20"
+                }
+            },
+            "minecraft:collision_box": {
+                "origin": [
+                    -6,
+                    6,
+                    -8
+                ],
+                "size": [
+                    12,
+                    2,
+                    16
+                ]
+            },
+            "minecraft:selection_box": {
+                "origin": [
+                    -6,
+                    5,
+                    -8
+                ],
+                "size": [
+                    12,
+                    4,
+                    16
+                ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "q.block_state('uvi:facing') == 'north'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,0,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'east'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,90,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'south'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,180,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'west'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,-90,0]
+                    }
+                }
+            },
+            {
+                "condition": "!q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "conveyor_off",
+                            "render_method": "blend"
+                        }
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:power')",
+                "components": {
+                    "minecraft:material_instances": {
+                        "*": {
+                            "texture": "conveyor_on",
+                            "render_method": "blend"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
