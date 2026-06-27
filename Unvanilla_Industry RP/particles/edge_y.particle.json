@@ -4,7 +4,7 @@
 		"description": {
 			"identifier": "uvi:edge_y",
 			"basic_render_parameters": {
-				"material": "particles_blend",
+				"material": "particles_opaque",
 				"texture": "textures/particle/white"
 			}
 		},

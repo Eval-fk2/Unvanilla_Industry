@@ -1,9 +1,10 @@
 {
     "num_mip_levels": 4,
     "padding": 8,
-    "resource_pack_name": "Copper Industry RP",
+    "resource_pack_name": "Unvanilla Industry RP",
     "texture_name": "atlas.terrain",
     "texture_data": {
+        //miner_mk1
         "miner_mk1_0_0_0": {
             "textures": "textures/blocks/miner_mk1/miner_mk1_0_0_0"
         },
@@ -289,6 +290,167 @@
         "miner_mk1_block_height": {
             "textures": "textures/blocks/miner_mk1/miner_mk1_block_height"
         },
+        //furnace_machine
+        "furnace_machine_0_0_0_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_0_on"
+        },
+        "furnace_machine_0_0_0_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_0_on_mer"
+        },
+        "furnace_machine_0_0_0_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_0_off"
+        },
+        "furnace_machine_0_0_0_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_0_off_mer"
+        },
+        "furnace_machine_0_0_0_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_0_height"
+        },
+        "furnace_machine_0_0_1": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_1"
+        },
+        "furnace_machine_0_0_1_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_1_mer"
+        },
+        "furnace_machine_0_0_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_1_height"
+        },
+        "furnace_machine_1_0_1": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_1"
+        },
+        "furnace_machine_1_0_1_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_1_mer"
+        },
+        "furnace_machine_1_0_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_1_height"
+        },
+        "furnace_machine_0_0_2": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_2"
+        },
+        "furnace_machine_0_0_2_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_2_mer"
+        },
+        "furnace_machine_0_0_2_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_2_height"
+        },
+        "furnace_machine_1_0_2": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_2"
+        },
+        "furnace_machine_1_0_2_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_2_mer"
+        },
+        "furnace_machine_1_0_2_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_0_2_height"
+        },
+        "furnace_machine_0_0_3_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_3_on"
+        },
+        "furnace_machine_0_0_3_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_3_on_mer"
+        },
+        "furnace_machine_0_0_3_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_3_off"
+        },
+        "furnace_machine_0_0_3_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_3_off_mer"
+        },
+        "furnace_machine_0_0_3_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_0_3_height"
+        },
+        "furnace_machine_0_1_1_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_1_on"
+        },
+        "furnace_machine_0_1_1_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_1_on_mer"
+        },
+        "furnace_machine_0_1_1_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_1_off"
+        },
+        "furnace_machine_0_1_1_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_1_off_mer"
+        },
+        "furnace_machine_0_1_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_1_height"
+        },
+        "furnace_machine_1_1_1_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_1_on"
+        },
+        "furnace_machine_1_1_1_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_1_on_mer"
+        },
+        "furnace_machine_1_1_1_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_1_off"
+        },
+        "furnace_machine_1_1_1_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_1_off_mer"
+        },
+        "furnace_machine_1_1_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_1_height"
+        },
+        "furnace_machine_0_1_2": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_2"
+        },
+        "furnace_machine_0_1_2_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_2_mer"
+        },
+        "furnace_machine_0_1_2_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_1_2_height"
+        },
+        "furnace_machine_1_1_2_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_2_on"
+        },
+        "furnace_machine_1_1_2_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_2_on_mer"
+        },
+        "furnace_machine_1_1_2_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_2_off"
+        },
+        "furnace_machine_1_1_2_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_2_off_mer"
+        },
+        "furnace_machine_1_1_2_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_1_2_height"
+        },
+        "furnace_machine_0_2_1_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_2_1_on"
+        },
+        "furnace_machine_0_2_1_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_2_1_on_mer"
+        },
+        "furnace_machine_0_2_1_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_2_1_off"
+        },
+        "furnace_machine_0_2_1_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_2_1_off_mer"
+        },
+        "furnace_machine_0_2_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_0_2_1_height"
+        },
+        "furnace_machine_1_2_1_on": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_2_1_on"
+        },
+        "furnace_machine_1_2_1_on_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_2_1_on_mer"
+        },
+        "furnace_machine_1_2_1_off": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_2_1_off"
+        },
+        "furnace_machine_1_2_1_off_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_2_1_off_mer"
+        },
+        "furnace_machine_1_2_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_2_1_height"
+        },
+        "furnace_machine_1_3_1": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_3_1"
+        },
+        "furnace_machine_1_3_1_mer": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_3_1_mer"
+        },
+        "furnace_machine_1_3_1_height": {
+            "textures": "textures/blocks/furnace_machine/furnace_machine_1_3_1_height"
+        },
+        //conveyor
         "conveyor_on": {
             "textures": "textures/blocks/conveyor/conveyor_on"
         },

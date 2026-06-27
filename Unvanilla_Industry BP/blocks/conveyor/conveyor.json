@@ -18,7 +18,7 @@
             "minecraft:material_instances": {
                 "*": {
                     "texture": "conveyor_on",
-                    "render_method": "blend"
+                    "render_method": "opaque"
                 }
             },
             "minecraft:geometry": {
@@ -114,6 +114,10 @@
                     "minecraft:material_instances": {
                         "*": {
                             "texture": "conveyor_off",
+                            "render_method": "opaque"
+                        },
+                        "glass": {
+                            "texture": "conveyor_off",
                             "render_method": "blend"
                         }
                     }
@@ -125,7 +129,7 @@
                     "minecraft:material_instances": {
                         "*": {
                             "texture": "conveyor_on",
-                            "render_method": "blend"
+                            "render_method": "opaque"
                         }
                     }
                 }

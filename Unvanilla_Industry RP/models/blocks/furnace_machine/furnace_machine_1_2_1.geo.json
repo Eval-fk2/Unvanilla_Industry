@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.furnace_machine_1_2_1",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 2,
@@ -43,48 +43,48 @@
 							"origin": [5, 16, 5],
 							"size": [1, 1, 1],
 							"uv": {
-								"north": {"uv": [12, 28], "uv_size": [1, 1]},
-								"east": {"uv": [13, 28], "uv_size": [1, 1]},
-								"south": {"uv": [12, 29], "uv_size": [1, 1]},
-								"west": {"uv": [13, 29], "uv_size": [1, 1]},
-								"up": {"uv": [24, 34], "uv_size": [1, 1]},
-								"down": {"uv": [25, 35], "uv_size": [1, -1]}
+								"north": {"uv": [12, 28], "uv_size": [1, 1], "material_instance": "glass"},
+								"east": {"uv": [13, 28], "uv_size": [1, 1], "material_instance": "glass"},
+								"south": {"uv": [12, 29], "uv_size": [1, 1], "material_instance": "glass"},
+								"west": {"uv": [13, 29], "uv_size": [1, 1], "material_instance": "glass"},
+								"up": {"uv": [24, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"down": {"uv": [25, 35], "uv_size": [1, -1], "material_instance": "glass"}
 							}
 						},
 						{
 							"origin": [-6, 16, 5],
 							"size": [1, 1, 1],
 							"uv": {
-								"north": {"uv": [26, 34], "uv_size": [1, 1]},
-								"east": {"uv": [27, 34], "uv_size": [1, 1]},
-								"south": {"uv": [28, 34], "uv_size": [1, 1]},
-								"west": {"uv": [29, 34], "uv_size": [1, 1]},
-								"up": {"uv": [30, 34], "uv_size": [1, 1]},
-								"down": {"uv": [31, 35], "uv_size": [1, -1]}
+								"north": {"uv": [26, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"east": {"uv": [27, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"south": {"uv": [28, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"west": {"uv": [29, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"up": {"uv": [30, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"down": {"uv": [31, 35], "uv_size": [1, -1], "material_instance": "glass"}
 							}
 						},
 						{
 							"origin": [5, 16, -6],
 							"size": [1, 1, 1],
 							"uv": {
-								"north": {"uv": [32, 34], "uv_size": [1, 1]},
-								"east": {"uv": [33, 34], "uv_size": [1, 1]},
-								"south": {"uv": [34, 34], "uv_size": [1, 1]},
-								"west": {"uv": [24, 35], "uv_size": [1, 1]},
-								"up": {"uv": [25, 35], "uv_size": [1, 1]},
-								"down": {"uv": [26, 36], "uv_size": [1, -1]}
+								"north": {"uv": [32, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"east": {"uv": [33, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"south": {"uv": [34, 34], "uv_size": [1, 1], "material_instance": "glass"},
+								"west": {"uv": [24, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"up": {"uv": [25, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"down": {"uv": [26, 36], "uv_size": [1, -1], "material_instance": "glass"}
 							}
 						},
 						{
 							"origin": [-6, 16, -6],
 							"size": [1, 1, 1],
 							"uv": {
-								"north": {"uv": [27, 35], "uv_size": [1, 1]},
-								"east": {"uv": [28, 35], "uv_size": [1, 1]},
-								"south": {"uv": [29, 35], "uv_size": [1, 1]},
-								"west": {"uv": [30, 35], "uv_size": [1, 1]},
-								"up": {"uv": [31, 35], "uv_size": [1, 1]},
-								"down": {"uv": [32, 36], "uv_size": [1, -1]}
+								"north": {"uv": [27, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"east": {"uv": [28, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"south": {"uv": [29, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"west": {"uv": [30, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"up": {"uv": [31, 35], "uv_size": [1, 1], "material_instance": "glass"},
+								"down": {"uv": [32, 36], "uv_size": [1, -1], "material_instance": "glass"}
 							}
 						}
 					]

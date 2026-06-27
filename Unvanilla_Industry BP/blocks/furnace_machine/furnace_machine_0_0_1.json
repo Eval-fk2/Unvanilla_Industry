@@ -1,0 +1,83 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:block": {
+        "description": {
+            "identifier": "uvi:furnace_machine_0_0_1",
+            "menu_category": {
+                "category": "construction"
+            },
+            "states": {
+                "uvi:facing": ["north","east","south","west"]
+            }
+        },
+        "components": {
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "furnace_machine_0_0_1",
+                    "render_method": "opaque"
+                }
+            },
+            "minecraft:geometry": {
+                "identifier": "geometry.furnace_machine_0_0_1"
+            },
+            "minecraft:collision_box": {
+                "origin": [
+                    -8,
+                    0,
+                    -8
+                ],
+                "size": [
+                    16,
+                    16,
+                    16
+                ]
+            },
+            "minecraft:selection_box": {
+                "origin": [
+                    -8,
+                    0,
+                    -8
+                ],
+                "size": [
+                    16,
+                    16,
+                    16
+                ]
+            }
+        },
+        "permutations": [
+            {
+                "condition": "q.block_state('uvi:facing') == 'north'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,0,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'east'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,90,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'south'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,180,0]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('uvi:facing') == 'west'",
+                "components": {
+                    "minecraft:transformation": {
+                        "rotation": [0,-90,0]
+                    }
+                }
+            }
+        ]
+    }
+}

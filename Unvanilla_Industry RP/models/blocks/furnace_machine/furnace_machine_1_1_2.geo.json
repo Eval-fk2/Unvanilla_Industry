@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.furnace_machine_1_1_2",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,
@@ -175,12 +175,12 @@
 							"origin": [-5, 8, -1],
 							"size": [9, 2, 2],
 							"uv": {
-								"north": {"uv": [30, 26], "uv_size": [9, 2]},
-								"east": {"uv": [19, 35], "uv_size": [2, 2]},
-								"south": {"uv": [30, 28], "uv_size": [9, 2]},
-								"west": {"uv": [35, 34], "uv_size": [2, 2]},
-								"up": {"uv": [30, 30], "uv_size": [9, 2]},
-								"down": {"uv": [0, 34], "uv_size": [9, -2]}
+								"north": {"uv": [30, 26], "uv_size": [9, 2], "material_instance": "glass"},
+								"east": {"uv": [19, 35], "uv_size": [2, 2], "material_instance": "glass"},
+								"south": {"uv": [30, 28], "uv_size": [9, 2], "material_instance": "glass"},
+								"west": {"uv": [35, 34], "uv_size": [2, 2], "material_instance": "glass"},
+								"up": {"uv": [30, 30], "uv_size": [9, 2], "material_instance": "glass"},
+								"down": {"uv": [0, 34], "uv_size": [9, -2], "material_instance": "glass"}
 							}
 						},
 						{

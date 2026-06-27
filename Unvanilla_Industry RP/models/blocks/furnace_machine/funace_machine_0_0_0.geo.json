@@ -163,12 +163,12 @@
 							"origin": [-4, 16, -8],
 							"size": [8, 2, 6],
 							"uv": {
-								"north": {"uv": [18, 36], "uv_size": [8, 2]},
-								"east": {"uv": [12, 42], "uv_size": [6, 2]},
-								"south": {"uv": [58, 21], "uv_size": [8, 2]},
-								"west": {"uv": [12, 44], "uv_size": [6, 2]},
-								"up": {"uv": [52, 26], "uv_size": [8, 6]},
-								"down": {"uv": [0, 60], "uv_size": [8, -6]}
+								"north": {"uv": [18, 36], "uv_size": [8, 2], "material_instance": "glass"},
+								"east": {"uv": [12, 42], "uv_size": [6, 2], "material_instance": "glass"},
+								"south": {"uv": [58, 21], "uv_size": [8, 2], "material_instance": "glass"},
+								"west": {"uv": [12, 44], "uv_size": [6, 2], "material_instance": "glass"},
+								"up": {"uv": [52, 26], "uv_size": [8, 6], "material_instance": "glass"},
+								"down": {"uv": [0, 60], "uv_size": [8, -6], "material_instance": "glass"}
 							}
 						},
 						{

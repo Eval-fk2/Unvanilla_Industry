@@ -86,6 +86,10 @@
                         "*": {
                             "texture": "miner_mk1_2_2_2_off",
                             "render_method": "opaque"
+                        },
+                        "glass": {
+                            "texture": "miner_mk1_2_2_2_off",
+                            "render_method": "blend"
                         }
                     }
                 }

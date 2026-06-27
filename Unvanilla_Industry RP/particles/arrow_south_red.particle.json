@@ -4,7 +4,7 @@
 		"description": {
 			"identifier": "uvi:arrow_south_red",
 			"basic_render_parameters": {
-				"material": "particles_blend",
+				"material": "particles_opaque",
 				"texture": "textures/particle/arrow_red"
 			}
 		},

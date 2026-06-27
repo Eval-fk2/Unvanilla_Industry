@@ -1,0 +1,8 @@
+{
+    "format_version": "1.16.100",
+    "minecraft:texture_set": {
+        "color": "furnace_machine_0_0_0_off",
+        "metalness_emissive_roughness": "furnace_machine_0_0_0_off_mer",
+        "heightmap": "furnace_machine_0_0_0_height"
+    }
+}
